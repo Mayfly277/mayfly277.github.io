@@ -25,5 +25,27 @@ tags :  AD, Mindmap
 - Add picto on cme and impacket
 - Export is now available in svg format
 
-# sources
+# TODO add
+
+- [dacledit](https://github.com/SecureAuthCorp/impacket/pull/1291)
+- [acltoolkit](https://github.com/zblurx/acltoolkit)
+- [bloodyAD](https://github.com/CravateRouge/bloodyAD)
+
+
+# source code
+
 - All the sources are available on the Orange Cyberdefense Arsenal repository : [https://github.com/Orange-Cyberdefense/arsenal/](https://github.com/Orange-Cyberdefense/arsenal/)
+
+# sources
+
+- [thehacker.receipes](https://www.thehacker.recipes/)
+- [ired.team](https://www.ired.team/)
+- [hack tricks](https://book.hacktricks.xyz/)
+- [payload all the things](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md)
+- [AD-Attack-Defense](https://github.com/infosecn1nja/AD-Attack-Defense)
+- [harmjoy](https://blog.harmj0y.net/)
+- [hausec.com](https://hausec.com/domain-penetration-testing/)
+- [dirkjam](https://dirkjanm.io/)
+- [darthsidious](https://hunter2.gitbook.io/)
+- [casvancooten.com](https://casvancooten.com/posts/2020/11/windows-active-directory-exploitation-cheat-sheet-and-command-reference/)
+- [zer1t0.gitlab.io](https://zer1t0.gitlab.io/posts/attacking_ad/)
