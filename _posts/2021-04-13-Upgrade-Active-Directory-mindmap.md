@@ -19,18 +19,14 @@ tags :  AD, Mindmap
 
 - ADCS details (thx to @Sant0rryu for his help) and ly4k for the awsome [https://github.com/ly4k/Certipy](https://github.com/ly4k/Certipy) tool !
 - Modifications on delegation details
-- Forest to forest improvement
+- Forest to forest improvement (thx to @vikingfr for the review)
 - Drop the av alert icon as almost all windows tools ring the av bell
 - Add some kerberos 5 TGS hash format
 - Add picto on cme and impacket
 - Export is now available in svg format
-
-# TODO add
-
-- [dacledit](https://github.com/SecureAuthCorp/impacket/pull/1291)
-- [acltoolkit](https://github.com/zblurx/acltoolkit)
-- [bloodyAD](https://github.com/CravateRouge/bloodyAD)
-
+- Add lateral move
+- Add some abuse gpo lateral move (thx to @viking)
+- Add some persistance methods
 
 # source code
 
