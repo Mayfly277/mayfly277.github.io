@@ -41,7 +41,7 @@ Here as we got 3 domains we know that three DCs must be setup.
 We also know that microsoft setup DC smb signing as true by default. So all the dc are the one with signing at true. (In a secure environment signing must true everywhere to avoid ntlm relay).
 
 
-### Found DC ip
+### Find DC ip
 
 ![mindmap_dc_ip.png](/assets/blog/GOAD/mindmap_dc_ip.png)
 
