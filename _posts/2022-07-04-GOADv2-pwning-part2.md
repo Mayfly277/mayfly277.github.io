@@ -17,10 +17,10 @@ cme smb 192.168.56.11 --users
 
 - We get some users with the description and get a first password as samwell.tarly got his password set up in description.
 
-we could also retreive the password policy before trying bruteforce
+we could also retrieve the password policy before trying bruteforce
 ![cme_pass_pol](/assets/blog/GOAD/cme_pass_pol.png)
 
-- The password policy show us if we fail 5 time in 5 minutes we lock the accounts for 5minutes.
+- The password policy show us that if we fail 5 time in 5 minutes we lock the accounts for 5minutes.
 
 ### With enum4linux
 
@@ -152,7 +152,7 @@ $krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL:5b71bebe8d2955599a76ccf4a4
 [-] User Administrator doesn't have UF_DONT_REQUIRE_PREAUTH set
 ```
 
-- We get a ticket for brandon.stark and we will try to break it as the user don't require kerberos preauthentication
+- We get a ticket for brandon.stark and we will try to break it as the user don't require kerberos pre-authentication
 
 ```bash
 hashcat -m 18200 asrephash /usr/share/wordlists/rockyou.txt

@@ -7,12 +7,12 @@ tags :  AD, Lab, kerberos, nmap
 
 ## Enumerate Network
 
-We will starting the reconnaissance of the Game Of Active Directory environement by searching all the avaialbles ip.
+We will starting the reconnaissance of the Game Of Active Directory environment by searching all the availables IPs.
 
 ### First recon with cme
 
-The first thing i personaly do before launching an nmap is to scan for netbios results.
-For this i launch crackmapexec (cme) on the ip range to kickly get netbios answers by windows computers.
+The first thing i personally do before launching an nmap is to scan for netbios results.
+For this i launch crackmapexec (cme) on the IP range to quickly get netbios answers by windows computers.
 This is a very kick way to get all the windows machine IP, names and domains.
 
 ```bash
@@ -21,9 +21,9 @@ cme smb 192.168.56.1/24
 
 ![cme.png](/assets/blog/GOAD/cme.png)
 
-This command answer relatively kickly and send back a lot of usefull informations !
+This command answer relatively quickly and send back a lot of useful informations!
 
-We now know there is 3 domains :
+We now know there is 3 domains:
 - north.sevenkingdoms.local (2 ip)
   - CASTELBLACK (windows server 2019) (signing false)
   - WINTEFELL (windows server 2019) 
@@ -34,10 +34,10 @@ We now know there is 3 domains :
   - MEEREEN (windows server 2019)
 
 Here as we got 3 domains we know that three DCs must be setup.
-We also know that microsoft setup DC smb signing as true by default. So all the dc are the one with signing at true. (in a secure environement signing must true everywhere to avoid ntlm relay).
+We also know that microsoft setup DC smb signing as true by default. So all the dc are the one with signing at true. (In a secure environment signing must true everywhere to avoid ntlm relay).
 
 ### setup /etc/hosts and kerberos
-- To use kerberos in our linux environement we will do some configuration.
+- To use kerberos in our Linux environment we will do some configurations.
 - First we must set the DNS by configuring the /etc/hosts file
 
 ```
@@ -50,7 +50,7 @@ We also know that microsoft setup DC smb signing as true by default. So all the 
 192.168.56.23   braavos.essos.local braavos
 ```
 
-- We must install the linux kerberos client
+- We must install the Linux kerberos client
 
 ```bash
 sudo apt install krb5-user
@@ -85,7 +85,7 @@ sudo apt install krb5-user
 ...
 ```
 
-- now kerberos is set up on our environement we will try if we can get a TGT for a user.
+- Now kerberos is set up on our environment we will try if we can get a TGT for a user.
 
 ```shell
 getTGT.py essos.local/khal.drogo:horse
@@ -139,15 +139,15 @@ drw-rw-rw-          0  Sun Jul  3 15:58:04 2022 vagrant
 drw-rw-rw-          0  Thu Jun 30 17:33:12 2022 Windows
 ```
 
-- ok the kerberos setup is good :)
-- we could now unset the ticket:
+- Ok the kerberos setup is good :)
+- We could now unset the ticket:
 
 ```shell
 unset KRB5CCNAME
 ```
 
 - Trouble on winterfell
-- during the kerberos test we saw we get trouble on winterfell:
+- During the kerberos tests we saw we get trouble on winterfell:
 
 ```bash
 getTGT.py north.sevenkingdoms.local/arya.stark:Needle
@@ -205,14 +205,14 @@ The way to be sure we doesn't miss anything on TCP, could be to scan with the fo
 nmap -Pn -p- -sC -sV -oA full_scan_goad 192.168.56.10-12,22-23
 ```
 
-Let's analyse this command :
+Let's analyze this command :
 - `-Pn` don't do ping scan and scan all ip
-- `-p-` scan the 56000 ports instead of the default nmap 1000 first ports by default
+- `-p-` scan the 56000 ports instead of the default nmap 1000 top ports by default
 - `-sC` play the default script for reconnaissance
 - `-sV` enumerate the version
-- `-oA` write results in the 3 availables format (nmap classic, grep format, xml format)
+- `-oA` write results in the 3 available format (nmap classic, grep format, xml format)
 
-- The full scan result is :
+- The full scan result is:
 
 ```
 Nmap scan report for sevenkingdoms.local (192.168.56.10)
@@ -662,5 +662,4 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 5 IP addresses (5 hosts up) scanned in 572.00 seconds
 ```
 
-- Ok we now know all the hosts and service exposed, let try an anonymous enumeration in the second part
-[Goad pwning part2](/posts/GOADv2-pwning_part2/)
+- Ok we now know all the hosts and service exposed, let try an anonymous enumeration in the second part: [Goad pwning part2](/posts/GOADv2-pwning_part2/)
