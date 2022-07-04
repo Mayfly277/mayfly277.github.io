@@ -5,9 +5,13 @@ category : AD
 tags :  AD, Lab, kerberos, nmap
 ---
 
+The lab is now up and running [Goad introduction](/posts/GOADv2/), let's do some recon on it.
+
 ## Enumerate Network
 
 We will starting the reconnaissance of the Game Of Active Directory environment by searching all the availables IPs.
+
+![mindmap_scan.png](/assets/blog/GOAD/mindmap_scan.png)
 
 ### First recon with cme
 
