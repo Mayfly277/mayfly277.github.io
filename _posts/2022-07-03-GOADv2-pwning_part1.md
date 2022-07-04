@@ -5,7 +5,7 @@ category : AD
 tags :  AD, Lab, kerberos, nmap
 ---
 
-The lab is now up and running [Goad introduction](/posts/GOADv2/), let's do some recon on it.
+The lab is now up and running [Goad introduction]({% link _posts/2022-07-02-GOADv2.md %}), let's do some recon on it.
 
 ## Enumerate Network
 
@@ -666,4 +666,4 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 5 IP addresses (5 hosts up) scanned in 572.00 seconds
 ```
 
-- Ok we now know all the hosts and service exposed, let try an anonymous enumeration in the second part: [Goad pwning part2](/posts/GOADv2-pwning_part2/)
+- Ok we now know all the hosts and service exposed, let try an anonymous enumeration in the second part: [Goad pwning part2]({% link _posts/2022-07-04-GOADv2-pwning-part2.md %})

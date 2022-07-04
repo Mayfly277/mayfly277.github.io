@@ -5,7 +5,7 @@ category : AD
 tags :  AD, Lab, cme, enum4linux
 ---
 
-We have done some basic reconnaissance on [part1](/posts/GOADv2-pwning_part2/), now we will try to enumerate users and start to hunt for credentials.
+We have done some basic reconnaissance on [Goad pwning part1]({% link _posts/2022-07-03-GOADv2-pwning_part1.md %}), now we will try to enumerate users and start to hunt for credentials.
 
 ![find_users](/assets/blog/GOAD/mindmap_find_users.png)
 
