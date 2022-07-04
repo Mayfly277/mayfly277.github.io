@@ -663,3 +663,4 @@ Nmap done: 5 IP addresses (5 hosts up) scanned in 572.00 seconds
 ```
 
 - Ok we now know all the hosts and service exposed, let try an anonymous enumeration in the second part
+[Goad pwning part2](/posts/GOADv2-pwning_part2/)
