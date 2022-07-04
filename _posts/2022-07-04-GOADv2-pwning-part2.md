@@ -261,6 +261,21 @@ Nmap done: 1 IP address (1 host up) scanned in 0.83 seconds
 
 ![cme_users_essos.png](/assets/blog/GOAD/cme_users_essos.png)
 
+## List guest access on shares
+
+- Let's take a look on guest access to the smb shares:
+
+![mindmap_guest_shares.png](/assets/blog/GOAD/mindmap_guest_shares.png)
+
+
+- We launch the following command with CME :
+```bash
+cme smb 192.168.56.10-23 -u 'a' -p '' --shares
+```
+
+- And we found some anonymous shares with READ/WRITE permissions
+![cme_anonymous_shares.png](/assets/blog/GOAD/cme_anonymous_shares.png)
+
 
 ## User but no credentials
 

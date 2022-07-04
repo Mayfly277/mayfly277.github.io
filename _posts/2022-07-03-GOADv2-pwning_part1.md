@@ -40,6 +40,20 @@ We now know there is 3 domains:
 Here as we got 3 domains we know that three DCs must be setup.
 We also know that microsoft setup DC smb signing as true by default. So all the dc are the one with signing at true. (In a secure environment signing must true everywhere to avoid ntlm relay).
 
+
+### Found DC ip
+
+![mindmap_dc_ip.png](/assets/blog/GOAD/mindmap_dc_ip.png)
+
+- Let's enumerate the DCs by quering the dns with nslookup
+
+```shell
+nslookup -type=srv _ldap._tcp.dc._msdcs.sevenkingdoms.local 192.168.56.10
+```
+
+![nslookup_dc.png](/assets/blog/GOAD/nslookup_dc.png)
+
+
 ### setup /etc/hosts and kerberos
 - To use kerberos in our Linux environment we will do some configurations.
 - First we must set the DNS by configuring the /etc/hosts file
@@ -197,7 +211,6 @@ drw-rw-rw-          0  Wed Jun 29 00:48:39 2022 .
 drw-rw-rw-          0  Wed Jun 29 00:48:39 2022 ..
 drw-rw-rw-          0  Wed Jun 29 00:48:39 2022 north.sevenkingdoms.local
 ```
-
 
 ### Nmap
 
