@@ -412,4 +412,4 @@ cme smb -u samwell.tarly -p Heartsbane -d north.sevenkingdoms.local 192.168.56.1
     - brandon.stark:iseedeadpeople (asreproasting)
     - hodor:hodor (password spray)
 
-- Great, in the next part we will start to dig what to do with a valid user.
+- Great, in the next part we will start to dig what to do with a valid user : [Goad pwning part3]({% link _posts/2022-07-07-GOADv2-pwning-part3.md %})
