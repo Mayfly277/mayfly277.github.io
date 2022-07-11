@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "GOAD - part 3 - Enumeration with user"
+title:  "GOAD - part 3 - enumeration with user"
 category : AD
 tags :  AD, Lab, cme, kerberoasting, impacket, ldap, bloodhound
 ---
@@ -42,7 +42,7 @@ jeor.mormont                                          2022-06-29 07:48:37.841846
 sql_svc                                               2022-06-29 07:48:40.248028  2022-07-03 15:56:57.924607
 ```
 
-- With ldap query, i recommand this article with all the usefull ldap query for active directory : [https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/]
+- With ldap query, i recommand this article with all the usefull ldap query for active directory : [https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/](https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/)
 
 - With ldap on north.sevenkingdoms.local
 
@@ -151,9 +151,9 @@ bloodhound.py --zip -c All -d essos.local -u brandon.stark@north.sevenkingdoms.l
 
 - but the python ingestor is not as complete as the .net ingestor as we can see on the github project : _"Supports most, but not all BloodHound (SharpHound) features (see below for supported collection methods, mainly GPO based methods are missing)"_
 
-- So let's do that again from wnidows this time.
+- So let's do that again from Windows this time.
 
-### .net ingestor - from windows
+### .net ingestor - from Windows
 
 - The official bloudhound ingestor is sharphound : [https://github.com/BloodHoundAD/SharpHound](https://github.com/BloodHoundAD/SharpHound)
 
@@ -223,4 +223,4 @@ MATCH p=(u:User)-[r1]->(n) WHERE r1.isacl=true and not tolower(u.name) contains 
     - [https://en.hackndo.com/bloodhound/](https://en.hackndo.com/bloodhound/)
     - [https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/](https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/)
 
-On the next article we will start to pwn VM to go deeper into the lab :)
+On the next article we will start to play with poisoning and ntlm relay : [Goad pwning part4]({% link _posts/2022-07-12-GOADv2-pwning-part4.md %})
