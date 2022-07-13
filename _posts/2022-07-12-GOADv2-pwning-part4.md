@@ -5,7 +5,7 @@ category : AD
 tags :  AD, Lab, responder, mitm6, ntlm relay
 ---
 
-On the previous post ([Goad pwning part3]({% link _posts/2022-07-07-GOADv2-pwning-part3.md %})) we start to dig on what to do when you got a user account. Before start exploiting the VMs with a user account we will just take a step back to the state without user account an see what we can do with responder, mitm6 and NTLM relay !
+On the previous post ([Goad pwning part3]({% link _posts/2022-07-07-GOADv2-pwning-part3.md %})) we start to dig on what to do when you got a user account. Before start exploiting the VMs with a user account, we will just take a step back to the state without user account an see what we can do with responder, mitm6 and NTLM relay !
 
 ![mindmap_relaypoisoning.png](/assets/blog/GOAD/mindmap_relaypoisoning.png)
 
@@ -15,7 +15,7 @@ On the previous post ([Goad pwning part3]({% link _posts/2022-07-07-GOADv2-pwnin
 When you start a pentest mission without any creds, [responder](https://github.com/lgandx/Responder) is a must run tool.
 In a standard windows active directory (without any modification) It will give you : 
   - usernames
-  - netntlmv1 (if the server is old) / netntlmv2 hashes
+  - netntlmv1 (if the server is very old) / netntlmv2 hashes
   - the ability to redirect the authentication (NTLM relay)
   - ...
 
@@ -31,7 +31,7 @@ Some minutes later we will get robb.stark netntlmv2 hash
 
 ![responder_capture_robb.png](/assets/blog/GOAD/responder_capture_robb.png)
 
-- The bot try to make a smb connection to bravos instead of braavos. The dns doesn't know braavos so by default windows will send broadcast request to find the associated computer. With responder we answer to that broadcast query and say that this server is us, and so we get the connection from the user.
+- The bot try to make a smb connection to bravos instead of braavos. The dns doesn't know bravos without two 'a' so by default windows will send a broadcast request to find the associated computer. With responder we answer to that broadcast query and say that this server is us, and so we get the connection from the user.
 
 After some more minutes (eddard bot is set to run every 5 minutes and robb every 3 minutes) we got also a connection from eddard.stark:
 
@@ -39,7 +39,7 @@ After some more minutes (eddard bot is set to run every 5 minutes and robb every
 
 - The netntlm hashes are not usable to do pass the hash, but you can crack them to retrieve the password.
 
-- We create a file responder.hashes with the two hash found and we will start to crack it with hashcat.
+- We create a file responder.hashes with the two hashes found and we will start to crack it with hashcat.
 
 ```
 robb.stark::NORTH:1122334455667788:138B29A14C5A082F19F946BB3AFF537E:01010000000000000090C5E56494D801E5D2F5789054B95D0000000002000800480053003600340001001E00570049004E002D004C00420052004E0041004D0031005300540051005A0004003400570049004E002D004C00420052004E0041004D0031005300540051005A002E0048005300360034002E004C004F00430041004C000300140048005300360034002E004C004F00430041004C000500140048005300360034002E004C004F00430041004C00070008000090C5E56494D801060004000200000008003000300000000000000000000000003000002D4B5557B9EF589ECE5944B06785A55D686F279D120AC87BCBF6D0FEAA6663B90A001000000000000000000000000000000000000900160063006900660073002F0042007200610076006F0073000000000000000000
@@ -72,7 +72,7 @@ cme smb 192.168.56.10-23 --gen-relay-list relay.txt
 
 ![smb_unsigned.png](/assets/blog/GOAD/smb_unsigned.png)
 
-Ok now we got a list of `signing:False` smb computer, we can start to try to relay ntlm authentication to them.
+Ok now we got a list of `signing:False` smb computers, we can start to try to relay ntlm authentication to them.
 
 ### responder + ntlmrelayx to smb
 
@@ -91,7 +91,7 @@ ntlmrelayx -tf smb_targets.txt -of netntlm -smb2support -socks
 
 - `-tf` : list of targets to relay the authentication
 - `-of` : output file, this will keep the captured smb hashes just like we did before with responder, to crack them later
-- `-sm2support` : support for smb2
+- `-smb2support` : support for smb2
 - `-socks` : will start a socks proxy to use relayed authentication
 
 
@@ -128,7 +128,7 @@ responder -I vboxnet0
 - The poisoned connections are relayed to castelblack (192.168.56.22) and essos (192.168.56.23) and a socks proxy is setup to use the connection.
 - As eddard.stark is a domain administrator of north.sevenkingdoms.local he got administrator privileges on castelback.
 
-Now we can use this relay to get an access to the computer as administrator
+Now we can use this relay to get an access to the computer as an administrator
 
 ### Use a socks relay with an admin account
 
@@ -142,18 +142,18 @@ proxychains secretsdump -no-pass 'NORTH'/'EDDARD.STARK'@'192.168.56.22'
 
 ![proxychains_secretsdump.png](/assets/blog/GOAD/proxychains_secretsdump.png)
 
-- The sam database contains the local account. We will ignore vagrant as it is the default user to setup the lab.
+- The sam database contains the local accounts. We will ignore vagrant as it is the default user to setup the lab.
 - The important information here is the NT hash of the local administrator user.
 - We also got the LSA cache of the last connected users (by default windows keep the last 10 users), this is useful to connect to the server even if the domain controller is unreachable. But those cached credentials can be cracked offline with hashcat (very slow).
-- And to finish we also got the hash of the computer account. (Sometimes you will get no useful domain accounts or no information at all on a domain joined computer but if you get this hash you got an account to the domain!)
+- And to finish we also got the hash of the computer account. (Sometimes you will get no useful domain accounts or no information at all on a domain joined computer but if you get this hash you got an account on the domain!)
 
-> With a machine account you can query the ldap like any other users and you can also run bloodhound ;)
+> With a machine account you can query the ldap like any other users and you can also run bloodhound ingestor ;)
 
 #### Lsassy
 
 - Use lsassy to get the lsass process stored credentials
 - Domain accounts informations are stored in the LSASS process so make a dump of this process can give you more domain accounts and privileges.
-- [Lsassy](https://github.com/Hackndo/lsassy) allow you to dump lsass remotely (very more convenient then doing a procdump, download of the lsass dump file and doing pypykatz or mimikatz locally), it do all the painful actions like dump and read lsass content for you (it also dump also only the usefull part of the lsass dump optimizing the time of transfer). (lsassy also exist as a cme module)
+- [Lsassy](https://github.com/Hackndo/lsassy) allow you to dump lsass remotely (very more convenient then doing a procdump, download of the lsass dump file and doing pypykatz or mimikatz locally), it do all the painful actions like dump and read lsass content for you (it also dump only the usefull part of the lsass dump optimizing the time of transfer). (lsassy also exist as a cme module)
 
 ```
 proxychains lsassy --no-pass -d NORTH -u EDDARD.STARK 192.168.56.22
@@ -235,7 +235,7 @@ ntlmrelayx.py -6 -wh wpadfakeserver.essos.local -t ldaps://meereen.essos.local -
 
 ![dns_poisonned.png](/assets/blog/GOAD/dns_poisonned.png)
 
-- We wait for a wpad query a relay the request to the ldaps (you can reboot the VM to poison and exploit without waiting)
+- We wait for a wpad http query to relay the request to the ldaps (you can reboot the VM to poison and exploit without waiting)
 
 ![relay_http_ldaps.png](/assets/blog/GOAD/relay_http_ldaps.png)
 
