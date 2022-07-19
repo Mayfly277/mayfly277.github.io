@@ -302,4 +302,4 @@ secretsdump -k -no-pass ESSOS.LOCAL/'Administrator'@braavos.essos.local
 ![drom_the_mic_work.png](/assets/blog/GOAD/drom_the_mic_work.png)
 
 
-Next time we will go back to the exploitation with a user account part (samccountname, printnightmare,...)
+Next time we will go back to the exploitation with a user account part (samccountname, printnightmare) : [Goad pwning part5]({% link _posts/2022-07-20-GOADv2-pwning-part5.md %})

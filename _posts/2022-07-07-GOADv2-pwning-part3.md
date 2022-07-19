@@ -118,6 +118,29 @@ cme smb 192.168.56.10-23 -u jon.snow -p iknownothing -d north.sevenkingdoms.loca
 
 - Now a new share folder is readable (nothing in it on the lab, but on a real assignment you will get very often juicy informations)
 
+## DNS dump
+
+- Another cool thing to do when we got a user is enumerate dns. For this we can use dirkjanm's tool [adidnsdump](https://github.com/dirkjanm/adidnsdump).
+
+
+```shell
+adidnsdump -u 'north.sevenkingdoms.local\jon.snow' -p 'iknownothing' winterfell.north.sevenkingdoms.local
+```
+
+- Results are stored in a records.csv file
+
+```
+cat records.csv 
+type,name,value
+A,winterfell,192.168.56.11
+A,winterfell,10.0.2.15
+?,DomainDnsZones,?
+?,castelblack,?
+NS,@,winterfell.north.sevenkingdoms.local.
+A,@,192.168.56.11
+A,@,10.0.2.15
+```
+
 ## Bloodhound
 
 - Boodhound is one of the best tool for an active directory pentest. This tool will help you to find all the path to pwn the AD and is a must have in your arsenal !
