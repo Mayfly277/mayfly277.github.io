@@ -30,7 +30,7 @@ This command answer relatively quickly and send back a lot of useful information
 We now know there is 3 domains:
 - north.sevenkingdoms.local (2 ip)
   - CASTELBLACK (windows server 2019) (signing false)
-  - WINTEFELL (windows server 2019) 
+  - WINTERFELL (windows server 2019) 
 - sevenkingdoms.local (1 ip)
   - KINGSLANDING (windows server 2019)
 - essos.local (2 ip)

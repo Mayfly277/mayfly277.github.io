@@ -5,7 +5,7 @@ category : AD
 tags :  AD, Lab, samaccountname, nopac, printnightmare
 ---
 
-On the previous post ([Goad pwning part4]({% link _posts/2022-07-12-GOADv2-pwning-part4.md %})) we play with relay ntlm.
+On the previous post ([Goad pwning part4]({% link _posts/2022-07-12-GOADv2-pwning-part4.md %})) we played with relay ntlm.
 For this part we will continue on what to do with a valid account on the domain.
 
 ![account_on_domain.png](/assets/blog/GOAD/account_on_domain.png)
@@ -18,8 +18,8 @@ At the end of 2021 when everyone was worried about the log4j "log4shell" vulnera
 
 - I will not re-explain the vulnerability, as it is wonderfully describe here by Charlie Clark : [https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html](https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html)
 
-- The attack was automated on windows by cube0x0 : https://github.com/cube0x0/noPac
-- And on linux by shutdown : [https://www.thehacker.recipes/ad/movement/kerberos/samaccountname-spoofing](https://www.thehacker.recipes/ad/movement/kerberos/samaccountname-spoofing) (still in impacket pull requests : https://github.com/SecureAuthCorp/impacket/pull/1202 and https://github.com/SecureAuthCorp/impacket/pull/1224)
+- The attack was automated on windows by cube0x0 : [https://github.com/cube0x0/noPac](https://github.com/cube0x0/noPac)
+- And on linux by shutdown : [https://www.thehacker.recipes/ad/movement/kerberos/samaccountname-spoofing](https://www.thehacker.recipes/ad/movement/kerberos/samaccountname-spoofing) (still in impacket pull requests : [https://github.com/SecureAuthCorp/impacket/pull/1202](https://github.com/SecureAuthCorp/impacket/pull/1202) and [https://github.com/SecureAuthCorp/impacket/pull/1224](https://github.com/SecureAuthCorp/impacket/pull/1224))
 
 - As a huge fan of linux and exegol we will try the linux way :)
 
@@ -81,13 +81,13 @@ git merge 1202
 git merge 1224
 ```
 
-- Reorder the path entry result to load our pyenv bin before the others in the $PATH (this is needed on zsh, in bash this take directly our pyenv bins)
+- Reorder the path entry result to load our pyenv bin before the others in the $PATH (this is needed on zsh, in bash it take directly our pyenv bins)
 
 ```shell
 rehash
 ```
 
-- now let's verify we get all the binaries and options we want :
+- Now let's verify we get all the binaries and options we want :
 
 ```shell
 renameMachine.py
@@ -489,4 +489,4 @@ cme smb winterfell.north.sevenkingdoms.local -u pnightmare2 -p 'Test123456789!' 
 - Don't forget to clean up ;)
 
 
-Next time we will have fun with ADCS (Certifried, ESC1, ESC8, ...)
+Next time we will have fun with ADCS (Certifried, ESC1, ESC8, ...) : : [Goad pwning part6]({% link _posts/2022-09-07-GOADv2-pwning-part6.md %})

@@ -211,7 +211,7 @@ Windows by default prefer IPv6 other IPv4 so we could capture and poison the res
 
 - For this example we will poison braavos server. We will answer to wpad queries and relay the http query to ldaps on meereen to add a computer with delegate access.
 
-- First we need to change a little the network configuration of braavos.local
+- ~First we need to change a little the network configuration of braavos.local~ (Edit: Not needed anymore if you have done the ansible provisioning after 08/18/2022)
 - Connect to braavos with khal.drogo:horse on rdp and change the dns server of the ethernet to automatic (i will fix that in the ansible lab playbooks soon but for now you will have to do that by hand). Change only the first ethernet connection to automatic dns.
 
 ![dns_change_part1.png](/assets/blog/GOAD/dns_change_part1.png)
