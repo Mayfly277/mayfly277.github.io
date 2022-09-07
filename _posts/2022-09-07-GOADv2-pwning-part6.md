@@ -7,7 +7,7 @@ tags :  AD, Lab, certipy, adcs
 
 On the previous post ([Goad pwning part5]({% link _posts/2022-07-20-GOADv2-pwning-part5.md %})) we tried some attacks with a user account on the domain.
 On this part we will try attacks when an ADCS is setup on the domain.
-First we will use petitpotam unauthenticated and ESC8 attack to get domain admin on essos.local, next we will enumerate template certificate with certipy, bloodhound and a user account. To finish we will exploit the following attacks : certipy, esc1, esc2, esc3, esc4, esc7 and shadow credentials.
+First we will use petitpotam unauthenticated and ESC8 attack to get domain admin on essos.local, next we will enumerate template certificate with certipy, bloodhound and a user account. To finish we will exploit the following attacks : certipy, esc1, esc2, esc3, esc4, esc6, certifried and shadow credentials.
 
 
 ## ESC8 - coerce to domain admin
