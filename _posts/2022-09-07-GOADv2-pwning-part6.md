@@ -400,4 +400,4 @@ certipy shadow auto -u viserys.targaryen@essos.local -hashes 'd96a55df6bef5e0b4d
 
 
 
-Next time we will have fun with MSSQL ([Goad pwning part7]({% link _posts/2022-09-13-GOADv2-pwning-part7.md %})) in the lab :)
+Next time we will have fun with MSSQL ([Goad pwning part7]({% link _posts/2022-09-12-GOADv2-pwning-part7.md %})) in the lab :)
