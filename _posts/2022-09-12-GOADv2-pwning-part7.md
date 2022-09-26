@@ -397,4 +397,4 @@ print("powershell -exec bypass -enc %s" % b64.decode())
   - [https://github.com/Jean-Francois-C/Database-Security-Audit/blob/master/MSSQL%20database%20penetration%20testing](https://github.com/Jean-Francois-C/Database-Security-Audit/blob/master/MSSQL%20database%20penetration%20testing)
 
 
-Next time we will have fun with IIS and we will get an nt authority\system shell on mssql and iis :)
+Next time we will have fun with IIS and we will get an nt authority\system shell on servers : ([Goad pwning part8]({% link _posts/2022-09-25-GOADv2-pwning-part8.md %})) :)
