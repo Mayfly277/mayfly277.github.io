@@ -37,7 +37,7 @@ We now know there is 3 domains:
   - BRAAVOS (windows server 2016) (signing false)
   - MEEREEN (windows server 2019)
 
-Here as we got 3 domains we know that three DCs must be setup.
+Here as we have 3 domains we know that three DCs must be setup.
 We also know that microsoft setup DC smb signing as true by default. So all the dc are the one with signing at true. (In a secure environment signing must true everywhere to avoid ntlm relay).
 
 
@@ -101,6 +101,12 @@ sudo apt install krb5-user
 		admin_server = meereen.essos.local
 	}
 ...
+```
+
+- If krb5-user is already installed we can reconfigure it with (dpkg-reconfigure or by modifying /etc/krb5.conf)
+
+```bash
+dpkg-reconfigure krb5-config
 ```
 
 - Now kerberos is set up on our environment we will try if we can get a TGT for a user.
@@ -224,7 +230,7 @@ nmap -Pn -p- -sC -sV -oA full_scan_goad 192.168.56.10-12,22-23
 
 Let's analyze this command :
 - `-Pn` don't do ping scan and scan all ip
-- `-p-` scan the 56000 ports instead of the default nmap 1000 top ports by default
+- `-p-` scan the 65535 ports instead of the default nmap 1000 top ports by default
 - `-sC` play the default script for reconnaissance
 - `-sV` enumerate the version
 - `-oA` write results in the 3 available format (nmap classic, grep format, xml format)

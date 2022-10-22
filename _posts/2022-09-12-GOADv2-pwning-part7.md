@@ -5,7 +5,7 @@ category : AD
 tags :  AD, Lab, MSSQL
 ---
 
-On the previous post ([Goad pwning part6]({% link _posts/2022-09-07-GOADv2-pwning-part6.md %})) we tried some attacks with ADCS activated on the domain. Now let's take a step back, and go back on the castelblack.north.sevenkingdoms.local to take a look at the MSSQL server.
+In the previous post ([Goad pwning part6]({% link _posts/2022-09-07-GOADv2-pwning-part6.md %})) we tried some attacks with ADCS activated on the domain. Now let's take a step back, and go back on the castelblack.north.sevenkingdoms.local to take a look at the MSSQL server.
 
 Before jump into this chapter, i have done some small configuration on the lab, to be sure you get it, you should pull the updates and play : `ansible-playbook servers.yml` to get the last mssql configuration.
 

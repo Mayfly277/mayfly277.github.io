@@ -5,7 +5,7 @@ category : AD
 tags :  AD, Lab, AMSI, krbrelay, printspoofer
 ---
 
-On the previous post ([Goad pwning part7]({% link _posts/2022-09-12-GOADv2-pwning-part7.md %})) we tried some attacks with MSSQL on the domain.
+In the previous post ([Goad pwning part7]({% link _posts/2022-09-12-GOADv2-pwning-part7.md %})) we tried some attacks with MSSQL on the domain.
 This time we will get a web shell on IIS and try some privilege escalation techniques.
 
 ## IIS - webshell

@@ -5,21 +5,21 @@ category : AD
 tags :  AD, Lab, responder, mitm6, ntlm relay
 ---
 
-On the previous post ([Goad pwning part3]({% link _posts/2022-07-07-GOADv2-pwning-part3.md %})) we start to dig on what to do when you got a user account. Before start exploiting the VMs with a user account, we will just take a step back to the state without user account an see what we can do with responder, mitm6 and NTLM relay !
+In the previous post ([Goad pwning part3]({% link _posts/2022-07-07-GOADv2-pwning-part3.md %})) we start to dig on what to do when you got a user account. Before start exploiting the VMs with a user account, we will just step back to the state (without user account) and see what we can do with responder, mitm6 and NTLM relay !
 
 ![mindmap_relaypoisoning.png](/assets/blog/GOAD/mindmap_relaypoisoning.png)
 
 
 ## Responder
 
-When you start a pentest mission without any creds, [responder](https://github.com/lgandx/Responder) is a must run tool.
+When you start a pentest without any creds, [responder](https://github.com/lgandx/Responder) is a must run tool.
 In a standard windows active directory (without any modification) It will give you : 
   - usernames
   - netntlmv1 (if the server is very old) / netntlmv2 hashes
   - the ability to redirect the authentication (NTLM relay)
   - ...
 
-On the lab, there is two bots to simulate LLMRN, MDNS and NBT-NS requests. One without admin rights and breakable password, and one with admin rights and unbreakable account password.
+In the lab, there are two bots to simulate LLMRN, MDNS and NBT-NS requests. One user has a weak password but no admin right. Another user has admin rights but uses a strong password.
 
 Let start responder to see if we can get some informations.
 
@@ -64,7 +64,7 @@ hashcat -m 5600 --force -a 0 responder.hashes /usr/share/wordlists/rockyou.txt
 
 ### Unsigned SMB
 
-Let's start by found unsigned smb in the lab and generate a list of targets IP.
+Let’s start hunting unsigned smb in the lab and generate a list of IP targets.
 
 ```shell
 cme smb 192.168.56.10-23 --gen-relay-list relay.txt
@@ -202,8 +202,8 @@ proxychains smbexec.py -no-pass 'NORTH'/'EDDARD.STARK'@'192.168.56.22' -debug
 
 ## Mitm6 + ntlmrelayx to ldap
 
-Another usefull way to poison the network is by giving answer to DHCPv6 requests and setting our host as the default DNS server.
-Windows by default prefer IPv6 other IPv4 so we could capture and poison the response to DHCPv6 query to change the DNS server and redirect queries to our machine with the tool [MITM6](https://github.com/dirkjanm/mitm6).
+Another useful way to poison the network is by giving answer to DHCPv6 requests and setting our host as the default DNS server.
+Windows by default prefers IPv6 over IPv4 so we could capture and poison the response to DHCPv6 query to change the DNS server and redirect queries to our machine with the tool [MITM6](https://github.com/dirkjanm/mitm6).
 
 - We will start mitm6 to poison dhcpv6 and get dns request from the hosts
 - As a side note, i notice we can poison domain controler but after that the DC's doesn't care and still use their localhost dns server.
@@ -211,7 +211,7 @@ Windows by default prefer IPv6 other IPv4 so we could capture and poison the res
 
 - For this example we will poison braavos server. We will answer to wpad queries and relay the http query to ldaps on meereen to add a computer with delegate access.
 
-- ~First we need to change a little the network configuration of braavos.local~ (Edit: Not needed anymore if you have done the ansible provisioning after 08/18/2022)
+- ~First we need to make small changes on braavos.local network configuration~ (Edit: Not needed anymore if you did  the ansible provisioning after 08/18/2022)
 - Connect to braavos with khal.drogo:horse on rdp and change the dns server of the ethernet to automatic (i will fix that in the ansible lab playbooks soon but for now you will have to do that by hand). Change only the first ethernet connection to automatic dns.
 
 ![dns_change_part1.png](/assets/blog/GOAD/dns_change_part1.png)
@@ -243,14 +243,14 @@ ntlmrelayx.py -6 -wh wpadfakeserver.essos.local -t ldaps://meereen.essos.local -
 
 - And we can continue with RBCD exploitation just like in the next paragraph (with getST to call s4u2proxy)
 
-- If we precise a loot dir all the informations on the ldap are automatically dumped
+- If we specify a loot dir all the informations on the ldap are automatically dumped
 
 ```
 ntlmrelayx.py -6 -wh wpadfakeserver.essos.local -t ldaps://meereen.essos.local -l /workspace/loot
 ```
 
 - Open an rdp with essos.local/khal.drogo:horse
-- When the relay is done we get all the domain informations
+- When the relay is up and running we can get all the domain information
 
 ![ldap_relay_loot1.png](/assets/blog/GOAD/ldap_relay_loot1.png)
 
@@ -258,7 +258,7 @@ ntlmrelayx.py -6 -wh wpadfakeserver.essos.local -t ldaps://meereen.essos.local -
 
 ![loot.png](/assets/blog/GOAD/loot.png)
 
-> Another thing we could do is also relay to smb server just like what we have done with responder (but there is no bot for now to do it so you have to do the poisoned victim)
+> Another thing we could do is also relay to smb server just like what we did with responder (but there is no bot for now to do it so you have to do the poisoned victim)
 
 ## Coerced auth smb + ntlmrelayx to ldaps with drop the mic
 

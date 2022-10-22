@@ -5,8 +5,8 @@ category : AD
 tags :  AD, Lab, certipy, adcs
 ---
 
-On the previous post ([Goad pwning part5]({% link _posts/2022-07-20-GOADv2-pwning-part5.md %})) we tried some attacks with a user account on the domain.
-On this part we will try attacks when an ADCS is setup on the domain.
+In the previous post ([Goad pwning part5]({% link _posts/2022-07-20-GOADv2-pwning-part5.md %})) we tried some attacks with a user account on the domain.
+On this part we will try attacks when an ADCS is setup in the domain.
 First we will use petitpotam unauthenticated and ESC8 attack to get domain admin on essos.local, next we will enumerate template certificate with certipy, bloodhound and a user account. To finish we will exploit the following attacks : certipy, esc1, esc2, esc3, esc4, esc6, certifried and shadow credentials.
 
 
@@ -15,7 +15,7 @@ First we will use petitpotam unauthenticated and ESC8 attack to get domain admin
 - To make this attack work we will need :
   - ADCS running on the domain with web enrollment enabled.
   - A working coerce method (here we use petitpotam unauthent, but an authenticated printerbug or other coerce methods will work the same)
-  - There is a useful template to exploit ESC8, by default on an active directory, it name is _DomainController_
+  - There is a useful template to exploit ESC8, by default on an active directory, its name is _DomainController_
 
 ![mindmap_adcs_esc8.png](/assets/blog/GOAD/mindmap_adcs_esc8.png)
 
@@ -349,7 +349,7 @@ export KRB5CCNAME=/workspace/certifried/meereen.ccache
 python3 /opt/tools/myimpacket/examples/getST.py -self -impersonate 'administrator' -altservice 'HTTP/meereen.essos.local' -k -no-pass -dc-ip 'meereen.essos.local' 'essos.local'/'meereen'
 ```
 
-> Note the HTTP service asked for winrm usage
+> Note : Here we asked an altservice HTTP/meereen.essos.local for winrm usage
 
 ```bash
 export KRB5CCNAME=/workspace/certifried/administrator@HTTP_meereen.essos.local@ESSOS.LOCAL.ccache
@@ -376,7 +376,7 @@ evil-winrm -i meereen.essos.local -r ESSOS.LOCAL
   - shadow credentials : the attack we want to do, we need a cetificate service on the domain
 
 - With GenericAll you can :
-  - ForceChangePassword : but on a real pentest mission you don't want to block a user by changing his password. And this is not very stealthy too. So if you can do another way this is fine :)
+  - ForceChangePassword : but on a real pentest you don't want to block a user by changing his password. And this is not very stealthy too. So if you can do another way this is fine :)
   - All the attacks available in the genericWrite part.
 
 

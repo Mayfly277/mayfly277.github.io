@@ -42,7 +42,7 @@ jeor.mormont                                          2022-06-29 07:48:37.841846
 sql_svc                                               2022-06-29 07:48:40.248028  2022-07-03 15:56:57.924607
 ```
 
-- With ldap query, i recommand this article with all the usefull ldap query for active directory : [https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/](https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/)
+- With ldap query, i recommend this article with all the useful ldap query for active directory : [https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/](https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/)
 
 - With ldap on north.sevenkingdoms.local
 
@@ -87,7 +87,7 @@ MSSQLSvc/castelblack.north.sevenkingdoms.local       sql_svc                    
 MSSQLSvc/castelblack.north.sevenkingdoms.local:1433  sql_svc                                                               2022-06-29 07:48:40.248028  2022-06-29 22:54:57.422114
 ```
 
-All the hashes will be stored on the file kerberoasting.hashes
+All the hashes will be stored in the file named kerberoasting.hashes
 
 - we could also do that with cme with the following command :
 
@@ -158,7 +158,7 @@ bloodhound.py --zip -c All -d north.sevenkingdoms.local -u brandon.stark -p isee
 
 ![bloodhound_python_ingestor.png](/assets/blog/GOAD/bloodhound_python_ingestor.png)
 
-Ok now, we get all the informations from the domain north.sevenkingdoms.local. Now try to get the informations for other domains :
+Ok now, we have all information from the domain north.sevenkingdoms.local. Now try to get information from other domains :
 
 ```shell
 bloodhound.py --zip -c All -d sevenkingdoms.local -u brandon.stark@north.sevenkingdoms.local -p iseedeadpeople -dc kingslanding.sevenkingdoms.local
@@ -242,8 +242,8 @@ MATCH p=(u:User)-[r1]->(n) WHERE r1.isacl=true and not tolower(u.name) contains 
 
 ![bloodhound_acl.png](/assets/blog/GOAD/bloodhound_acl.png)
 
-- If you want to dig more i recommand the following article with a lot of usefull informations and queries : 
+- If you want to dig more I recommend the following articles with a lot of useful informations and queries :
     - [https://en.hackndo.com/bloodhound/](https://en.hackndo.com/bloodhound/)
     - [https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/](https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/)
 
-On the next article we will start to play with poisoning and ntlm relay : [Goad pwning part4]({% link _posts/2022-07-12-GOADv2-pwning-part4.md %})
+In the next article we will start to play with poisoning and ntlm relay : [Goad pwning part4]({% link _posts/2022-07-12-GOADv2-pwning-part4.md %})

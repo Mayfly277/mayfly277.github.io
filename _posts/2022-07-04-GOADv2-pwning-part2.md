@@ -5,11 +5,11 @@ category : AD
 tags :  AD, Lab, cme, enum4linux
 ---
 
-We have done some basic reconnaissance on [Goad pwning part1]({% link _posts/2022-07-03-GOADv2-pwning_part1.md %}), now we will try to enumerate users and start to hunt for credentials.
+We have done some basic reconnaissance on [Goad pwning part1]({% link _posts/2022-07-03-GOADv2-pwning_part1.md %}), now we will try to enumerate users and start to hunt credentials.
 
 ![find_users](/assets/blog/GOAD/mindmap_find_users.png)
 
-## Enumerate DC's anonymous
+## Enumerate DC’s anonymously
 
 ### With CME
 
@@ -24,7 +24,7 @@ cme smb 192.168.56.11 --users
 we could also retrieve the password policy before trying bruteforce
 ![cme_pass_pol](/assets/blog/GOAD/cme_pass_pol.png)
 
-- The password policy show us that if we fail 5 time in 5 minutes we lock the accounts for 5minutes.
+- The password policy show us that if we fail 5 times in 5 minutes we lock the accounts for 5minutes.
 
 ### With enum4linux
 
@@ -107,10 +107,10 @@ NORTH\jeor.mormont
 NORTH\sql_svc
 ```
 
-## Enumerate DC's anonymous - when anonymous sessions are not allowed
+## Enumerate DC’s anonymously - when anonymous sessions are not allowed
 
 The Winterfell domain controler allow anonymous connection, this is the reason why we can list the domain users and groups.
-But nowadays that kind of configuration almost never append. (On the opposite password in users description append quite often x) ).
+But nowadays that kind of configuration almost never happens. (On the opposite password in users description happens quite often x) ).
 
 We can still enumerate valid users by bruteforcing them.
 
@@ -371,7 +371,7 @@ Hardware.Mon.#1..: Temp: 78c Util: 80%
 
 - We found the user password "iseedeadpeople"
 
-- We now got two couple of credentials :
+- We now have two couple of credentials :
     - samwell.tarly:Heartsbane
     - brandon.stark:iseedeadpeople
 
