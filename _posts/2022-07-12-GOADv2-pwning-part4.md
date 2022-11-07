@@ -56,6 +56,10 @@ hashcat -m 5600 --force -a 0 responder.hashes /usr/share/wordlists/rockyou.txt
 - Eddard's password is stronger and cannot be break with this method. This doesn't mean we can do nothing. What we could do is relay eddard connection to a server where smb is not signed ;)
 
 > Responder keep the logs in /opt/tools/Responder/logs (on exegol), if you need to show them again.
+{: .prompt-info }
+
+> If you want to delete the previous captured logs (message skipped previously captured hash) delete the file /opt/tools/Responder/Responder.db
+{: .prompt-tip }
 
 ## NTLM relay
 
@@ -148,6 +152,7 @@ proxychains secretsdump -no-pass 'NORTH'/'EDDARD.STARK'@'192.168.56.22'
 - And to finish we also got the hash of the computer account. (Sometimes you will get no useful domain accounts or no information at all on a domain joined computer but if you get this hash you got an account on the domain!)
 
 > With a machine account you can query the ldap like any other users and you can also run bloodhound ingestor ;)
+{: .prompt-tip }
 
 #### Lsassy
 
@@ -259,6 +264,7 @@ ntlmrelayx.py -6 -wh wpadfakeserver.essos.local -t ldaps://meereen.essos.local -
 ![loot.png](/assets/blog/GOAD/loot.png)
 
 > Another thing we could do is also relay to smb server just like what we did with responder (but there is no bot for now to do it so you have to do the poisoned victim)
+{: .prompt-info }
 
 ## Coerced auth smb + ntlmrelayx to ldaps with drop the mic
 

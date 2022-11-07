@@ -393,6 +393,9 @@ sprayhound -U users.txt -d north.sevenkingdoms.local -dc 192.168.56.11 --lower
 
 ![spray_hound_novalid_user.png](/assets/blog/GOAD/spray_hound_novalid_user.png)
 
+> When you are doing password spray, be carreful you can lock accounts !
+{: .prompt-danger }
+
 - We could try sprayhound with a valid user to avoid locking account (option -t to set the number of try left)
 
 ```bash

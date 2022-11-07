@@ -4,6 +4,10 @@
 !.editorconfig
 !.nojekyll
 !.travis.yml
+!.husky
+!.commitlintrc.json
+!.versionrc.json
+!.stylelintrc.json
 
 # bundler cache
 _site

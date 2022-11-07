@@ -273,12 +273,13 @@ certipy auth -pfx administrator.pfx -dc-ip 192.168.56.12
 
 - If you need to disable the EDITF_ATTRIBUTESUBJECTALTNAME2 attribute (because you want to try without it or just because [this attack will no longer work on a up to date AD without esc10 vuln](https://github.com/ly4k/Certipy#esc6)), you could do as administrator on braavos the following commands: 
 
-```cmd
+```
 certutil –setreg policy\EditFlags –EDITF_ATTRIBUTESUBJECTALTNAME2
 net stop certsvc && net start certsvc
 ```
 
 > This also mean that if you got an administrator access on the certificate server you can change this attribute to exploit ESC1 without being domain admin ;)
+{: .prompt-tip }
 
 - But now the exploit ESC6 no longer work, the user is not changed :)
 

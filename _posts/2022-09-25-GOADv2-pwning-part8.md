@@ -354,4 +354,4 @@ PowerSharpPack -rubeus -Command "s4u /user:krbrelay$ /rc4:0EDDEDC35EB7B7ECDE0C9F
 - [https://github.com/cube0x0/KrbRelay](https://github.com/cube0x0/KrbRelay)
 
 
-Next time we will do a review on lateral movement technics inside an active directory.
+Next time we will do a review on lateral movement technics inside an active directory : : ([Goad pwning part9]({% link _posts/2022-11-01-GOADv2-pwning-part9.md %})) :)

