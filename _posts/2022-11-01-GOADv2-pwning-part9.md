@@ -2,7 +2,7 @@
 layout: post
 title:  "GOAD - part 9 - Lateral move"
 category : AD
-tags :  AD, Lab
+tags :  AD, Lab, Impacket, Lateral move
 ---
 
 In the previous post ([Goad pwning part8]({% link _posts/2022-09-25-GOADv2-pwning-part8.md %})) we tried some privilege escalation techniques. Today we will talk about lateral move.
