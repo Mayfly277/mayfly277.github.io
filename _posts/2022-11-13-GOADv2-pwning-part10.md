@@ -20,7 +20,7 @@ Here i will just demonstrate the exploitation, if you want to understand the del
   - [https://eladshamir.com/2019/01/28/Wagging-the-Dog.html](https://eladshamir.com/2019/01/28/Wagging-the-Dog.html)
 
 
-## Delegations
+# Delegations
 
 - There is three type of delegation in active directory:
   - Unconstrained delegation
@@ -28,7 +28,7 @@ Here i will just demonstrate the exploitation, if you want to understand the del
   - Resource based delegation
 - In this blog post we will exploit the three of them.
 
-### Unconstrained delegation
+## Unconstrained delegation
 
 - One way to find unconstrained delegation is to look in bloodhound :
 
@@ -51,7 +51,7 @@ MATCH (c1:Computer)-[:MemberOf*1..]->(g:Group) WHERE g.objectid ENDS WITH '-516'
 
 ![delegation_windows_unconstrained.png](/assets/blog/GOAD/delegation_windows_unconstrained.png)
 
-#### Exploit
+### Exploit
 
 - To exploit an unconstrained delegation the simplest way is to do that from windows with Rubeus.
 
@@ -140,7 +140,7 @@ secretsdump.py -k -no-pass SEVENKINGDOMS.LOCAL/'KINGSLANDING$'@KINGSLANDING
 > Unless you didn't notice, the unconstrained delegation abuse was here exploited to pass from the child to the parent domain ;) 
 {: .prompt-tip }
 
-### Constrained Delegation
+## Constrained Delegation
 
 - Find constrained delegation with bloodhound :
 
@@ -161,7 +161,7 @@ findDelegation.py NORTH.SEVENKINGDOMS.LOCAL/arya.stark:Needle -target-domain nor
 ![deleg_find_delegation.png](/assets/blog/GOAD/deleg_find_delegation.png)
 
 
-#### With protocol transition
+### With protocol transition
 
 ![delegation_windows_constrained_user_any.png](/assets/blog/GOAD/delegation_windows_constrained_user_any.png)
 
@@ -195,7 +195,7 @@ getST.py -spn 'CIFS/winterfell' -impersonate Administrator -dc-ip '192.168.56.11
 {: .prompt-info }
 
 
-#### Without protocol transition
+### Without protocol transition
 
 - The constrained delegation with protocol transition was not present originally in the lab, but you can add it with the following commands :
 
@@ -272,7 +272,7 @@ rbcd.py -delegate-to 'castelblack$' -delegate-from 'rbcd_const$' -dc-ip 192.168.
 addcomputer.py -computer-name 'rbcd_const$' -computer-pass 'rbcdpass' -dc-host 192.168.56.11 'north.sevenkingdoms.local/eddard.stark:FightP3aceAndHonor!' -delete
 ```
 
-### Resource Based Constrained Delegation
+## Resource Based Constrained Delegation
 
 - Resource Based Constrained delegation (RBCD)
 
