@@ -191,7 +191,7 @@ getST.py -spn 'CIFS/winterfell' -impersonate Administrator -dc-ip '192.168.56.11
 
 
 > SPN lists
-> Carlospop (hacktricks), give a us a useful list of the common SPN and usage on his [silver ticket page](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/silver-ticket#available-services)
+> Carlos Polop (hacktricks), give a us a useful list of the common SPN and usage on his [silver ticket page](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/silver-ticket#available-services)
 {: .prompt-info }
 
 
@@ -216,7 +216,7 @@ Set-ADComputer -Identity "castelblack$" -Add @{'msDS-AllowedToDelegateTo'=@('HTT
 
 - A good example of exploitation can be found here: [https://snovvcrash.rocks/2022/03/06/abusing-kcd-without-protocol-transition.html](https://snovvcrash.rocks/2022/03/06/abusing-kcd-without-protocol-transition.html)
 
-> The self-RBCD trick doesn't work anymore. When i was writing this article i tried the self-rbcd without success many times. After multiple tries and fail i ask to charlie (@_nwodtuhs) what i am doing wrong, because i can't get why this don't work as expected. He explain to me that the self rbcd trick didn't work anymore and have been silent patch by Microsoft :'(
+> The self-RBCD trick doesn't work anymore. When i was writing this article i tried the self-rbcd without success many times. After multiple tries and fail i ask to charlie (@_nwodtuhs) what i am doing wrong, because i can't find out why this don't work as expected. He explained to me that the self rbcd trick didn't work anymore and have been silent patch by Microsoft :'(
 {: .prompt-warning }
 
 - To exploit the constrained delegation here we only need a forwardable TGS as administrator to any service on castelblack
@@ -224,7 +224,7 @@ Set-ADComputer -Identity "castelblack$" -Add @{'msDS-AllowedToDelegateTo'=@('HTT
 
 - So to exploit and get the forwardable TGS we need, we first need to add a computer and use RBCD between the created computer (rbcd_const$) and the computer who have delegation set (here castelblack$).
 
-- By doing that You can then do a s4u2self followed by a s4u2proxy on the added computer and the result is a forwardable tgs on hots/castelblack$ as administrator.
+- By doing that, you can do a s4u2self followed by a s4u2proxy on the added computer and the result is a forwardable tgs on hots/castelblack$ as administrator.
 
 - Once that done, you have the forwardable ticket to pass to s4u2proxy, and we even can change the request service with -altservice
 
@@ -278,7 +278,7 @@ addcomputer.py -computer-name 'rbcd_const$' -computer-pass 'rbcdpass' -dc-host 1
 
 - You can abuse RBCD when you can edit the attribute : msDS-AllowedToActOnBehalfOfOtherIdentity
 
-> A computer account can edit is own attribute msDS-AllowedToActOnBehalfOfOtherIdentity
+> A computer account can edit his own attribute msDS-AllowedToActOnBehalfOfOtherIdentity
 > This is usefull when you do ldaps NTLM relay (like in the drop-the-mic attack path), you can then edit the computer attribute and launch an RBCD exploitation.
 {: .prompt-tip }
 
