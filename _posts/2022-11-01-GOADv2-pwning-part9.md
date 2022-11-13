@@ -470,4 +470,4 @@ certipy auth -pfx administrator.pfx -dc-ip 192.168.56.12
 - [https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/lateral-movement/](https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/lateral-movement/)
 - ...
 
-Next time we will have fun with kerberos delegation
+Next time we will have fun with kerberos delegation : : ([Goad pwning part10]({% link _posts/2022-11-13-GOADv2-pwning-part10.md %})) :)
