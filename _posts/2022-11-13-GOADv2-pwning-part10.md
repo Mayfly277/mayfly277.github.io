@@ -332,3 +332,6 @@ addcomputer.py -computer-name 'rbcd$' -computer-pass 'rbcdpass' -dc-host kingsla
 - [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse)
 - [https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/delegation-abuse](https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/delegation-abuse)
 - And i recommend you to take a look at charlie's talk about delegation : [https://www.thehacker.recipes/ad/movement/kerberos/delegations#talk](https://www.thehacker.recipes/ad/movement/kerberos/delegations#talk)
+
+
+Next time we will have fun with ACL : : ([Goad pwning part11]({% link _posts/2022-12-07-GOADv2-pwning-part11.md %})) :)
