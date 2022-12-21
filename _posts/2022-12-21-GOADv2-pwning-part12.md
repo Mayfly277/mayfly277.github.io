@@ -411,7 +411,7 @@ smbexec.py -k -no-pass dragon@kingslanding.sevenkingdoms.local -debug
 
 ## Trust ticket with external forest ( essos -> sevenkingdoms)
 
-- Excatly like we done before on domain forest we can do this on external forest but just like with golden ticket we need the sid history enabled to bypass the sid filtering.
+- Excatly like we done before on domain forest we can do this on external forest but just like with the golden ticket we need the sid history enabled to exploit.
 
 - Find the domain sid with lookupsid.py
   - essos SID : S-1-5-21-2203133648-1386395927-1390703624
@@ -498,12 +498,12 @@ Set-DomainUserPassword -Identity stannis.baratheon -AccountPassword $SecPassword
   - Server: ldap/kingslanding.sevenkingdoms.local @ SEVENKINGDOMS.LOCAL (kdc: kingslanding)
   - Server: ldap/kingslanding.sevenkingdoms.local/sevenkingdoms.local @ SEVENKINGDOMS.LOCAL (kdc: kingslanding) 
 
-# The end
+# The end - Winter is coming
 
 - The GOAD's writeups series end with this part. If you read all you are very brave and i hope you enjoyed it despite my terrible english ^^
 - I also hope you gived a try to the lab and all is working fine on your computer.
-- For the next year i have other blog post ideas and projects in mind, you will see it on twitter (@M4yFly) when something new will come.
-- Again thank you to all the security searchers and opensource contributors for all the work and share they do !
+- For the next year i have other evolution of the lab, blog post ideas and projects in mind, you will see it on twitter (@M4yFly) when something new will come.
+- Again thank you to all the security researchers and opensource contributors for all the work and share they do !
 
 # Resources
 

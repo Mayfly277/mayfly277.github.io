@@ -475,4 +475,4 @@ cme ldap 192.168.56.12 -d essos.local -u jorah.mormont -p 'H0nnor!' --module lap
 - [https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab)
 
 
-Next time, this will be the last blog post of the GOAD writeup series. And it will be on Forest to Forest exploitation :)
+Next time, this will be the last blog post of the GOAD writeup series. And it will be on Trusts exploitation ([Goad pwning part12]({% link _posts/2022-12-21-GOADv2-pwning-part12.md %}))
