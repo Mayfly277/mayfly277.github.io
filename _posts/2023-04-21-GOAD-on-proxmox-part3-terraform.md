@@ -105,7 +105,7 @@ terraform init
 terraform plan -out goad.plan
 ```
 
-![terraform_plan.png](/assets/blog/GOAD/terraform_plan.png)
+![terraform_plan.png](/assets/blog/proxmox/terraform_plan.png)
 
 - And we launch the vm creation with apply :
 ```bash
