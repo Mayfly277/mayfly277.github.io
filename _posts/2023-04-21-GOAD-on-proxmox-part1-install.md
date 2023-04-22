@@ -268,13 +268,13 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 default         x.x.x.x         0.0.0.0         UG    0      0        0 vmbr0
 10.0.0.0        0.0.0.0         255.255.255.252 U     0      0        0 vmbr1
 xxx.xxx.xxx.0   0.0.0.0         255.255.255.0   U     0      0        0 vmbr0
-192.168.1.0     10.0.0.2        255.255.255.0   UG    0      0        0 vmbr1
+192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 vmbr2
 
 $> ip r
 default via xxx.xxx.xxx.254 dev vmbr0 proto kernel onlink 
 10.0.0.0/30 dev vmbr1 proto kernel scope link src 10.0.0.1 
 xxx.xxx.xxx.0/24 dev vmbr0 proto kernel scope link src xxx.xxx.xxx.xxx 
-192.168.1.0/24 via 10.0.0.2 dev vmbr1 
+192.168.1.0/24 dev vmbr2 proto kernel scope link src 192.168.1.1 
 ```
 
 - backup the rules

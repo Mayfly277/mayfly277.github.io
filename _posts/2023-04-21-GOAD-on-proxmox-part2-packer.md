@@ -290,7 +290,7 @@ os                    = "win10"
 - Now all is ready we will launch the packer template build:
 
 ```
-packer init
+packer init .
 packer validate -var-file=windows_server2019_proxmox_cloudinit.pkvars.hcl .
 packer build -var-file=windows_server2019_proxmox_cloudinit.pkvars.hcl .
 ```
