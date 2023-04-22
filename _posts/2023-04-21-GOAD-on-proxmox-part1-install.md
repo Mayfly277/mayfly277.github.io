@@ -23,7 +23,7 @@ For this blog post we will start from 0 to a full working lab build on top of pr
 
 ![result.png](/assets/blog/proxmox/result.png)
 
-> I am not a proxmox and neither a pfsense expert, this install is the result of a lot of reading and try & fail tests. If you see mistakes feel free to contact me on twitter or discord to explain my why i am wrong (thank you :))
+> I am not a proxmox and neither a pfsense expert, this install is the result of a lot of reading and try & fail tests. If you see mistakes feel free to contact me on twitter or discord to explain me why i am wrong (thank you :))
 
 ## Access to proxmox
 
