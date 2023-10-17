@@ -65,6 +65,10 @@ responder -I tun0
 > This coerce append automatically when the victim visit the share, no need to click! I let you imagine what append if you drop that kind of file on a common public share during your pentest.
 {: .prompt-tip }
 
+> Here the file start with a "." so it will be hidden if you don't activate show hidden file option.
+> The coerce only append when the file is showed (so in a pentest i recommend to not use a filename starting with ".")
+{: .prompt-info }
+
 Obviously we could also do a ntlmrelayx to not smb signed server and get share access or admin access depending on the relayed authentication target.
 
 - And to cleanup the slinky file : 

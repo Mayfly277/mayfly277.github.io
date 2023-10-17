@@ -26,7 +26,7 @@ tags :  AD, Lab, packer, proxmox
 - Go into goad folder and download cloudbase-init
 
 ```bash
-cd /root/GOAD/providers/proxmox/packer/scripts/sysprep
+cd /root/GOAD/packer/proxmox/scripts/sysprep
 wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi
 ```
 
@@ -59,10 +59,10 @@ pveum acl modify / -user 'infra_as_code@pve' -role Packer
 
 ## Prepare config.auto.pkrvars.hcl
 
-- Now go to /root/GOAD/providers/proxmox/packer/ and modify the config.auto.pkrvars.hcl template file
+- Now go to /root/GOAD/packer/proxmox/ and modify the config.auto.pkrvars.hcl template file
 
 ```bash
-cd /root/GOAD/providers/proxmox/packer/
+cd /root/GOAD/packer/proxmox/
 cp config.auto.pkrvars.hcl.template config.auto.pkrvars.hcl
 ```
 
@@ -105,7 +105,7 @@ proxmox_storage         = "local"
 - We run the build_proxmox_iso.sh script :
 
 ```bash
-cd /root/GOAD/providers/proxmox/packer
+cd /root/GOAD/packer/proxmox/
 ./build_proxmox_iso.sh
 ```
 
@@ -161,7 +161,7 @@ Max brk space used 0
 
 ```bash
 ssh goadproxmox
-scp root@192.168.1.3:/root/GOAD/providers/proxmox/packer/iso/scripts_withcloudinit.iso /var/lib/vz/template/iso/scripts_withcloudinit.iso
+scp root@192.168.1.3:/root/GOAD/packer/proxmox/iso/scripts_withcloudinit.iso /var/lib/vz/template/iso/scripts_withcloudinit.iso
 ```
 
 - On the proxmox we will download the file [virtio-win.iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso)

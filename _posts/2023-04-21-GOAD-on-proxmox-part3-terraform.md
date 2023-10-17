@@ -22,7 +22,7 @@ pveum acl modify / -user 'infra_as_code@pve' -role Administrator
 - First we go the provioning machine : `ssh goadprovisioning`
 
 ```
-cd /root/GOAD/providers/proxmox/terraform
+cd /root/GOAD/ad/GOAD/providers/proxmox/terraform
 cp variables.template variables.tf
 ```
 

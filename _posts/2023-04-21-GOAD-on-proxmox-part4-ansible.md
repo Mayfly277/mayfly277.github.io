@@ -10,7 +10,7 @@ tags :  AD, Lab, Ansible, proxmox
 If you followed the 3 previous part, you should have a running proxmox instance with the 5 windows vm in it.
 On part 4 we will setup all the GOAD configuration with ansible.
 
-- An inventory file is already setup for proxmox and can be found on the folder GOAD/ansible/ad/proxmox-sevenkingdoms.local/inventory
+- An inventory file is already setup for proxmox and can be found on the folder GOAD/ad/GOAD/providers/proxmox/inventory
 
 ## Setup inventory
 
@@ -50,10 +50,12 @@ domain_adapter=Ethernet 2
 ...
 ```
 
-- The changes between /ad/proxmox-sevenkingdoms.local/inventory and /ad/sevenkingdoms.local/inventory are :
+- The changes between GOAD/ad/GOAD/providers/proxmox/inventory and GOAD/ad/GOAD/providers/virtualbox/inventory are :
   - the machine's IP
   - force_dns_server and dns_server : to force dns_server to value 192.168.10.1 on the start of the ansible playbook to give internet to the virtual machine
   - two_adapters with the value "no", to disable all the mechanisms which enable/disable one adapter during the domain installation.
+
+- Another global inventory is also available at GOAD/ad/GOAD/data/inventory containing the project scenario
 
 ## Install the requirements
 
@@ -66,7 +68,8 @@ ansible-galaxy install -r requirements.yml
 
 ```bash
 cd /root/GOAD/ansible
-ansible-playbook -i ../ad/proxmox-sevenkingdoms.local/inventory main.yml
+export ANSIBLE_COMMAND="ansible-playbook -i ../ad/GOAD/data/inventory -i ../ad/GOAD/providers/proxmox/inventory"
+../scripts/provisionning.sh
 ```
 
 And wait until all the lab complete :
