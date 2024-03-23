@@ -9,6 +9,8 @@ tags :  AD, SCCM
 
 Some time ago i discovered the work of some researchers about SCCM, i was very interested by their research and as i reading i thought that i really need a lab to test all these cool attacks !
 
+Thanks a lot to my colleague Issam ([@KenjiEndo15](https://twitter.com/KenjiEndo15)), who start the project and provide me some of ansible roles to start from !
+
 After few ~~hours~~, ~~days~~, weeks of install, ansible recipe creation, try and retry. I am glad to announce a new lab on the [GOAD project](https://github.com/Orange-Cyberdefense/GOAD) : **SCCM**
 
 This lab was created with the inspiration to test the following resources :
@@ -16,9 +18,7 @@ This lab was created with the inspiration to test the following resources :
 - [Youtube: SCCM Exploitation: The First Cred Is the Deepest II w/ Gabriel Prud'homme](https://www.youtube.com/watch?v=W9PC9erm_pI)
 - [thehacker.recipes sccm-mecm](https://www.thehacker.recipes/a-d/movement/sccm-mecm)
 
-Thanks a lot to the writers, and thanks even more to all the searcher who have share all these findings about SCCM.
-
-Thx a lot to my colleague Issam ([@KenjiEndo15](https://twitter.com/KenjiEndo15)), who start the project and provide me some of ansible roles to start from !
+Thanks to the writers, and thanks even more to all the searcher who have share all these findings about SCCM.
 
 # Lab structure
 
@@ -176,7 +176,7 @@ With db users creds:
 
 ## What's Next ?
 
-- All these SCCM/MECM attack process will be described in the following blog posts, if you can't wait got to the spectorsOps github repository, all is very well described ;)
+- All these SCCM/MECM attack process will be described in the following blog posts, if you can't wait go to [missconfiguration manager github repository](https://github.com/subat0mik/Misconfiguration-Manager/) , all is very well described ;)
 
 
 
