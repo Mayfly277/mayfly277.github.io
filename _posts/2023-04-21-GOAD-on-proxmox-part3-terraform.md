@@ -23,7 +23,7 @@ pveum acl modify / -user 'infra_as_code@pve' -role Administrator
 
 ```
 cd /root/GOAD/ad/GOAD/providers/proxmox/terraform
-cp variables.template variables.tf
+cp variables.tf.template variables.tf
 ```
 
 - And we setup the variables.tf file : 

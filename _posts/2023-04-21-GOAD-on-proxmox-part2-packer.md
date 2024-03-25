@@ -48,13 +48,19 @@ pveum passwd infra_as_code@pve
 - Create a dedicated role for packer :
 
 ```bash
-pveum roleadd Packer -privs "VM.Config.Disk VM.Config.CPU VM.Config.Memory Datastore.AllocateTemplate Datastore.Audit Datastore.AllocateSpace Sys.Modify VM.Config.Options VM.Allocate VM.Audit VM.Console VM.Config.CDROM VM.Config.Cloudinit VM.Config.Network VM.PowerMgmt VM.Config.HWType VM.Monitor"
+pveum roleadd Packer -privs "VM.Config.Disk VM.Config.CPU VM.Config.Memory Datastore.AllocateTemplate Datastore.Audit Datastore.AllocateSpace Sys.Modify VM.Config.Options VM.Allocate VM.Audit VM.Console VM.Config.CDROM VM.Config.Cloudinit VM.Config.Network VM.PowerMgmt VM.Config.HWType VM.Monitor SDN.Use"
 ```
 
 - Associate this role to our user
 
 ```bash
 pveum acl modify / -user 'infra_as_code@pve' -role Packer
+```
+
+> If you got a 403 during packer install is because the rules may have change in another version of proxmox. Consider giving the user the Administrator role to solve the issue.
+
+```bash
+pveum acl modify / -user 'infra_as_code@pve' -role Administrator
 ```
 
 ## Prepare config.auto.pkrvars.hcl
