@@ -143,7 +143,7 @@ With low users creds from linux :
 - [X] takeover-2 - Relay to Site DB SMB
 
 With low user creds from windows:
-- [X] elevate-2 - Relay Client Push Installation :fire:
+- [X] elevate-2 - Relay Client Push Installation
 
 With machine account creds:
 - [X] cred-2 - Policy Request Credentials
