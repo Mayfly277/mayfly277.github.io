@@ -331,6 +331,11 @@ packer build -var-file=windows_server2016_proxmox_cloudinit.pkvars.hcl .
 
 ![template_created.png](/assets/blog/proxmox/template_created.png)
 
+> update: Please note that on last goad release there is also uptodate template to build
+> This will launch the windows update during the template creation but it will take a long time to build
+> if you use NHA or SCCM you should build the up-to-date template
+{: .prompt-tips }
+
 # resources
  - [https://holdmybeersecurity.com/2020/10/03/creating-a-windows-10-64-bit-vm-on-proxmox-with-packer-v1-6-3-and-vault/](https://holdmybeersecurity.com/2020/10/03/creating-a-windows-10-64-bit-vm-on-proxmox-with-packer-v1-6-3-and-vault/)
  - [https://dev.to/aaronktberry/creating-proxmox-templates-with-packer-1b35](https://dev.to/aaronktberry/creating-proxmox-templates-with-packer-1b35)

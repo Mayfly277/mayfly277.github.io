@@ -48,6 +48,39 @@ variable "pm_node" {
 variable "pm_pool" {
   default = "GOAD"
 }
+
+variable "pm_full_clone" {
+  default = false
+}
+
+# change this value with the id of your templates (win10 can be ignored if not used)
+variable "vm_template_id" {
+  type = map(number)
+
+  # set the ids according to your templates
+  default = {
+      "WinServer2019_x64"  = 0
+      "WinServer2016_x64"  = 0
+      "Windows10_22h2_x64" = 0
+  }
+}
+
+variable "storage" {
+  # change this with the name of the storage you use
+  default = "local"
+}
+
+variable "network_bridge" {
+  default = "vmbr3"
+}
+
+variable "network_model" {
+  default = "e1000"
+}
+
+variable "network_vlan" {
+  default = 10
+}
 ```
 
 ## Terraform recipe 
@@ -55,38 +88,98 @@ variable "pm_pool" {
 - The terraform recipe got this format for each computer :
 
 ```
-resource "proxmox_vm_qemu" "dc01" {
-    name = "DC01"
-    desc = "DC01 - windows server 2019 - 192.168.10.10"
-    qemu_os = "win10"
-    target_node = var.pm_node
-    pool = var.pm_pool
+resource "proxmox_virtual_environment_vm" "bgp" {
+  for_each = var.vm_config
 
-    sockets = 1
-    cores = 2
-    memory = 4096
-    agent = 1
-    clone = "WinServer2019x64-cloudinit"
+    name = each.value.name
+    description = each.value.desc
+    node_name   = var.pm_node
+    pool_id     = var.pm_pool
 
-    network {
-     bridge    = "vmbr3"
-     model     = "e1000"
-     tag       = 10
+    operating_system {
+      type = "win10"
+    }
+
+    cpu {
+      cores   = each.value.cores
+      sockets = 1
+    }
+
+    memory {
+      dedicated = each.value.memory
+    }
+
+    clone {
+      vm_id = lookup(var.vm_template_id, each.value.clone, -1)
+      full  = var.pm_full_clone
+    }
+
+    agent {
+      # read 'Qemu guest agent' section, change to true only when ready
+      enabled = true
+    }
+
+    network_device {
+      bridge  = var.network_bridge
+      model   = var.network_model
+      vlan_id = var.network_vlan
     }
 
     lifecycle {
       ignore_changes = [
-        disk,
+        vga,
       ]
     }
 
-   nameserver = "192.168.10.1"
-   ipconfig0 = "ip=192.168.10.10/24,gw=192.168.10.1"
+    initialization {
+      datastore_id = var.storage
+      dns {
+        servers = [
+          each.value.dns,
+          "1.1.1.1",
+        ]
+      }
+      ip_config {
+        ipv4 {
+          address = each.value.ip
+          gateway = each.value.gateway
+        }
+      }
+    }
 }
 ...
 ```
 
-- For each VM we will configure ram, cpu, target pool, name, description and the template to use.
+- A global variable vm_config is setup at the start off the goad.tf template which describe each computer
+
+```
+variable "vm_config" {
+  type = map(object({
+    name               = string
+    desc               = string
+    cores              = number
+    memory             = number
+    clone              = string
+    dns                = string
+    ip                 = string
+    gateway            = string
+  }))
+
+  default = {
+    "dc01" = {
+      name               = "GOAD-DC01"
+      desc               = "DC01 - windows server 2019 - 192.168.10.10"
+      cores              = 2
+      memory             = 3096
+      clone              = "WinServer2019_x64"
+      dns                = "192.168.10.1"
+      ip                 = "192.168.10.10/24"
+      gateway            = "192.168.10.1"
+    }
+    ...
+```
+
+- For each VM we will configure ram, cpu, target pool, name, description and the template to use (the corresponding template id should be set in the variable file)
 - We will also setup the network adapter with static ip (this will setup the ip on cloudinit and the service will change our vm ip and gateway).
 - And we configure the nameserver to our pfsense : 192.168.10.1 to give the vm dns resolution
 - Here we will not setting up disk as we will use the one defined during the template creation phase, if we add disk here it will add more disk to the vm but 40Go for each vm is already enough and we don't need another disk.
@@ -125,6 +218,12 @@ And after ~20-25 minutes the 5 vms are created.
 
 - Now wait some minutes as all vm will restart one after the other due to cloud-init IP configuration.
 
+> update: Please note that the provider as change on recent version of GOAD.
+> - the old provider was telmate : https://registry.terraform.io/providers/Telmate/proxmox/latest
+> - the new provider is now bgp : https://registry.terraform.io/providers/bpg/proxmox/latest
+> BGP is more active and more compatible with proxmox 8, which solve a lot of issues.
+> - If you have a previous install delete the files not includes in the repo, change the variable file according to the tempalte and redo a terrafom init
+{: .prompt-tips }
 
 # resources
 
