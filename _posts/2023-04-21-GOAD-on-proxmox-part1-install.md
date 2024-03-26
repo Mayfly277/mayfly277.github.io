@@ -154,7 +154,7 @@ passwd root
 - At the end just do not open a shell and choose to reboot
 
 > If you have trouble during the install you can find a very well detailed installation guide at this address : [https://www.virtualizationhowto.com/2022/08/pfsense-proxmox-install-process-and-configuration/](https://www.virtualizationhowto.com/2022/08/pfsense-proxmox-install-process-and-configuration/)
-{: .prompt-tips }
+{: .prompt-tip }
 
 - After the reboot just answer no to the question "Should vlans be set up now"
 ![install_console1.png](/assets/blog/proxmox/install_console1.png)

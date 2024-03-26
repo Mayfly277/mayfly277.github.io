@@ -223,7 +223,7 @@ And after ~20-25 minutes the 5 vms are created.
 > - the new provider is now bgp : https://registry.terraform.io/providers/bpg/proxmox/latest
 > BGP is more active and more compatible with proxmox 8, which solve a lot of issues.
 > - If you have a previous install delete the files not includes in the repo, change the variable file according to the tempalte and redo a terrafom init
-{: .prompt-tips }
+{: .prompt-tip }
 
 # resources
 
