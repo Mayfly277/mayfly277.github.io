@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD on proxmox - Part5 - VPN access with openvpn"
-category : proxmox
+category : [AD, proxmox]
 tags :  AD, Lab, Openvpn, proxmox
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 9 - Lateral move"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, Impacket, Lateral move
 ---
 

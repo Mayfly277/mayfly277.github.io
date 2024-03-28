@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 13 - Having fun inside a domain"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, slinky, url, webdav, impersonate, rdphijack
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD on proxmox - Part2 - Templating with packer"
-category : proxmox
+category : [AD, proxmox]
 tags :  AD, Lab, packer, proxmox
 ---
 

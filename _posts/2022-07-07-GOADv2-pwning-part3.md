@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 3 - enumeration with user"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, cme, kerberoasting, impacket, ldap, bloodhound
 ---
 

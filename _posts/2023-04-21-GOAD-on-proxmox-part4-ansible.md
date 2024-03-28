@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD on proxmox - Part4 - Provisioning with Ansible"
-category : proxmox
+category : [AD, proxmox]
 tags :  AD, Lab, Ansible, proxmox
 ---
 

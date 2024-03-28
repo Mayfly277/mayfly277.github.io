@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 8 - Privilege escalation"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, AMSI, krbrelay, printspoofer
 ---
 

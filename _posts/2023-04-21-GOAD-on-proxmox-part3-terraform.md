@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD on proxmox - Part3 - Providing with Terraform"
-category : proxmox
+category : [AD, proxmox]
 tags :  AD, Lab, terraform, proxmox
 ---
 

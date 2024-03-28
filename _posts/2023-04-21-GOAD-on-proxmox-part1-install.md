@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD on proxmox - Part1 - Proxmox and pfsense"
-category : proxmox
+category : [AD, proxmox]
 tags :  AD, Lab
 ---
 

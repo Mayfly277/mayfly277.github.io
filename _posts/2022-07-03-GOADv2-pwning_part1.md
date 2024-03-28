@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 1 - reconnaissance and scan"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, kerberos, nmap
 ---
 

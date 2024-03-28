@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 5 - exploit with user"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, samaccountname, nopac, printnightmare
 ---
 

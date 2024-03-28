@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 7 - MSSQL"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, MSSQL
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 2 - find users"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, cme, enum4linux
 ---
 

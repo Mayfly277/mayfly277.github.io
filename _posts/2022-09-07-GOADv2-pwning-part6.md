@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 6 - ADCS"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, certipy, adcs
 ---
 

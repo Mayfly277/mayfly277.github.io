@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "SCCM / MECM LAB - Part 0x0"
-category : AD
+category : [AD, SCCM]
 tags :  AD, SCCM
 ---
 
@@ -178,5 +178,4 @@ With db users creds:
 
 - All these SCCM/MECM attack process will be described in the following blog posts, if you can't wait go to [missconfiguration manager github repository](https://github.com/subat0mik/Misconfiguration-Manager/) , all is very well described ;)
 
-
-
+- Next post: ([SCCM LAB part 0x1]({% link _posts/2024-03-28-SCCM-LAB-part0x1.md %}))

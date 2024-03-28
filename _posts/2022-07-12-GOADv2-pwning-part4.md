@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 4 - poison and relay"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab, responder, mitm6, ntlm relay
 ---
 

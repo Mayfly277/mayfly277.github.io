@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 10 - Delegations"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab
 ---
 

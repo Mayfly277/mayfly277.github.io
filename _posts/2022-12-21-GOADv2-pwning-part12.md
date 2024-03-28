@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "GOAD - part 12 - Trusts"
-category : AD
+category : [AD, GOAD]
 tags :  AD, Lab
 ---
 
