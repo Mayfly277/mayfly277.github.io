@@ -8,7 +8,8 @@ tags :  AD, SCCM
 On the previous post ([SCCM LAB part 0x1]({% link _posts/2024-03-28-SCCM-LAB-part0x1.md %})) we started the recon and exploit the PXE feature.
 On this part we will start SCCM exploitation with low user credentials.
 
-# Takeover 1 - relay to mssql (low user -> mssql server admin)
+# Exploit with low user
+## Takeover 1 - relay to mssql (low user -> mssql server admin)
 
 - A super cool technic by default on mecm when the database is separate of the site server is that the server site is necessary sysadmin of the database. We can use it to relay the MECM$ computer to the MSSQL server database.
 - Details : [Takeover-1](https://github.com/subat0mik/Misconfiguration-Manager/blob/main/attack-techniques/TAKEOVER/TAKEOVER-1/takeover-1_description.md)
@@ -49,7 +50,7 @@ python3 sccmhunter.py admin -u carol@sccm.lab -p 'SCCMftw' -ip 192.168.33.11
 ![sccm_hunter_relay_mssql_new_admin.png](/assets/blog/SCCM/sccm_hunter_relay_mssql_new_admin.png)
 
 
-# Takeover-2 - Relay to SMB on remote DB (low user -> mecm admin account)
+## Takeover-2 - Relay to SMB on remote DB (low user -> mecm admin account)
 
 - Microsoft impose the computer account of the site server to be admin on the mssql server
 - By knowing that you can simply coerce MECM to MSSQL computer and get the hashes
@@ -85,7 +86,7 @@ proxychains -q secretsdump.py -no-pass SCCMLAB/'MECM$'@192.168.33.12
 ![elevate1_sam.png](/assets/blog/SCCM/elevate1_sam.png)
 
 
-# Elevate-2 - Relay Client Push Installation (low user -> client push account)
+## Elevate-2 - Relay Client Push Installation (low user -> client push account)
 
 - Client push if fallback to ntlm is enabled
 - Details : [Elevate-2](https://github.com/subat0mik/Misconfiguration-Manager/blob/main/attack-techniques/TAKEOVER/TAKEOVER-2/takeover-2_description.md)
@@ -171,7 +172,7 @@ proxychains -q smbexec.py -no-pass SCCM.LAB/SCCM-CLIENT-PUSH@192.168.33.12
 > ![unexpected_devices.png](/assets/blog/SCCM/unexpected_devices.png)
 {: .prompt-warning }
 
-# Cred-2 - Policy Request Credentials - Computer account get secrets of NAA (computer acount -> naa account)
+## Cred-2 - Policy Request Credentials - Computer account get secrets of NAA (computer account -> naa account)
 
 - Add a computer:
 
@@ -181,7 +182,7 @@ addcomputer.py -computer-name 'exegol$' -computer-pass 'maytheforcebewithyou' 's
 
 ![sccm_add_computer.png](/assets/blog/SCCM/sccm_add_computer.png)
 
-## from linux
+### from linux
 - details [here](https://blog.xpnsec.com/unobfuscating-network-access-accounts/)
 
 - Add this line in your `/etc/hosts`
@@ -215,7 +216,7 @@ cat /tmp/naapolicy.xml |grep 'NetworkAccessUsername\|NetworkAccessPassword' -A 5
 {: .prompt-warning }
 
 
-## from windows
+### from windows
 
 - Details [here](https://github.com/subat0mik/Misconfiguration-Manager/blob/main/attack-techniques/CRED/CRED-2/cred-2_description.md)
 - From windows launch the get secrets command
