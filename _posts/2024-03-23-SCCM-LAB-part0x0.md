@@ -20,7 +20,7 @@ This lab was created with the inspiration to test the following resources :
 
 Thanks to the writers, and thanks even more to all the searcher who have share all these findings about SCCM.
 
-# Lab structure
+## Lab structure
 
 ![SCCMLAB_overview](/assets/blog/SCCM/SCCMLAB_overview.png)
 
@@ -41,7 +41,7 @@ The lab is build around Microsoft Endpoint Configuration manager (a new name for
 > - ConfigMgr : Configuration Manager
 {: .prompt-info } 
 
-# Prerequisites
+## Prerequisites
 Just like for the GOAD lab you need some requirements to be installed before launching the lab install (the prerequisites are exactly the same as GOAD lab so if you have already install GOAD you should be fine)
 
 - Vmware or Virtualbox ready and working
@@ -86,7 +86,7 @@ python3 -m pip install pywinrm
 ansible-galaxy install -r ansible/requirements.yml
 ```
 
-# Install
+## Install
 
 - Just like goad lab the install is pretty simple:
 
@@ -105,7 +105,7 @@ source .venv/bin/activate
 
 > As comparison a GOAD installation take around 100 minutes to run.
 
-# Install verifications
+## Install verifications
 
 If all goes well you should have a working lab with configuration manager installed.
 Let's verify if all is ok :
@@ -124,14 +124,14 @@ Let's verify if all is ok :
 
 If all is ok you should have the same results has the screenshots before.
 
-# Vulnerabilities
+## Vulnerabilities
 
 - SpecterOps team (@subat0mik, @garrfoster and @_Mayyhem) as done a great work to classify sccm attack in the website : 
 [https://github.com/subat0mik/Misconfiguration-Manager/blob/main/attack-techniques/_attack-techniques-list.md](https://github.com/subat0mik/Misconfiguration-Manager/blob/main/attack-techniques/_attack-techniques-list.md)
 - To be clear We will take the notation they use on their repository in order to reproduce the attacks in the lab.
 - All the attacks which are not present are not checked in the list bellow and the reason why is also described.
 
-## present in the lab
+### present in the lab
 Without creds:
 - [X] cred-1 - PXE Credentials : Retrieve secrets from PXE boot media
 
@@ -159,7 +159,7 @@ With sccm admin account
 - [X] recon-4 - CMPivot
 - [X] recon-5 - SMS Provider Enumeration
 
-## not present in the lab
+### not present in the lab
 The following attacks are not present du to the lab characteristics :
 
 With low users creds :
