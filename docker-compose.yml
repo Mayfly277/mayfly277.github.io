@@ -1,0 +1,13 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:4000:4000"
+    volumes:
+      - ./_data:/site/_data
+      - ./_posts:/site/_posts
+      - ./_tabs:/site/_tabs
+      - ./assets:/site/assets

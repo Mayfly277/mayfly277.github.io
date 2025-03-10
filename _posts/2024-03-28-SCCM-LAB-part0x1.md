@@ -3,6 +3,9 @@ layout: post
 title:  "SCCM / MECM LAB - Part 0x1 - Recon and PXE"
 category : [AD, SCCM]
 tags :  AD, SCCM
+image:
+  path: /assets/blog/SCCM/SCCMLAB.png
+  alt: SCCM Part 1
 ---
 
 On the previous post ([SCCM LAB part 0x0]({% link _posts/2024-03-23-SCCM-LAB-part0x0.md %})) we setup an environment  to play with SCCM.

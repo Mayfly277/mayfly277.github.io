@@ -3,6 +3,9 @@ layout: post
 title:  "SCCM / MECM LAB - Part 0x2 - Low user"
 category : [AD, SCCM]
 tags :  AD, SCCM
+image:
+  path: /assets/blog/SCCM/SCCMLAB.png
+  alt: SCCM Part 2
 ---
 
 On the previous post ([SCCM LAB part 0x1]({% link _posts/2024-03-28-SCCM-LAB-part0x1.md %})) we started the recon and exploit the PXE feature.

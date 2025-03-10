@@ -3,9 +3,10 @@ layout: post
 title:  "SCCM / MECM LAB - Part 0x0"
 category : [AD, SCCM]
 tags :  AD, SCCM
+image:
+  path: /assets/blog/SCCM/SCCMLAB.png
+  alt: SCCM Part 0
 ---
-
-![SCCMLAB](/assets/blog/SCCM/SCCMLAB.png)
 
 Some time ago i discovered the work of some researchers about SCCM, i was very interested by their research and as i reading i thought that i really need a lab to test all these cool attacks !
 

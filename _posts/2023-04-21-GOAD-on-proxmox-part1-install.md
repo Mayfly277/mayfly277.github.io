@@ -125,6 +125,8 @@ passwd root
 
 - To install pfsense we will first download the last pfsense community edition iso file : [https://www.pfsense.org/download/](https://www.pfsense.org/download/)
 
+> Update: pfsense offline CE iso is no longer directly available. You can find it on dakota state university mirror : [https://repo.ialab.dsu.edu/pfsense/](https://repo.ialab.dsu.edu/pfsense/)
+
 - And we will upload the pfsense iso to proxmox
 
 ![upload_pfsense_iso.png](/assets/blog/proxmox/upload_pfsense_iso.png)
@@ -184,7 +186,7 @@ passwd root
 
 ## Configure pfsense
 - We will continue our pfsense installation and configuration with the web interface, to do that we will do an ssh tunnel.
-- To do that we can connect with `ssh -L 8082:192.168.1.2:80 root@ip_proxmox`
+- To do that we can connect with `ssh -L 8082:192.168.1.2:443 root@ip_proxmox`
 - Or we can create an ~/.ssh/config file on our pc:
 
 ```
@@ -194,13 +196,13 @@ Host goadproxmox
    Port 22
    IdentityFile ~/.ssh/id_rsa_kimsufi_goad
    # pfsense
-   LocalForward 8082 192.168.1.2:80
+   LocalForward 8082 192.168.1.2:443
 ```
 
-![ssh_config.png](/assets/blog/proxmox/ssh_config.png)
-
 - We connect to ssh
-- And open http://127.0.0.1:8082/
+- And open https://127.0.0.1:8082/
+
+> Update: with pfsense 2.7.2 default scheme is now https and not http the port forwarding was updated to reach port 443 instead of 80
 
 - we login with admin / pfsense
 

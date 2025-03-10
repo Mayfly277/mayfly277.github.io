@@ -3,6 +3,9 @@ layout: post
 title:  "SCCM / MECM LAB - Part 0x3 - Admin User"
 category : [AD, SCCM]
 tags :  AD, SCCM
+image:
+  path: /assets/blog/SCCM/SCCMLAB.png
+  alt: SCCM Part 3
 ---
 
 On the previous post ([SCCM LAB part 0x2]({% link _posts/2024-03-28-SCCM-LAB-part0x2.md %})) we have done SCCM exploitation with a low privilege user.

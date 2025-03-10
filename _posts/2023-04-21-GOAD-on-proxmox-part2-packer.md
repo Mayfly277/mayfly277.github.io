@@ -21,6 +21,12 @@ tags :  AD, Lab, packer, proxmox
 
     ![download_iso.png](/assets/blog/proxmox/download_iso.png)
 
+```bash
+cd /var/lib/vz/template/iso
+wget https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso -O windows_server_2019_17763.737_eval_x64.iso
+wget https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO -O windows_server_2016_14393.0_eval_x64.iso
+```
+
 ## Download cloudbase-init
 
 - Go into goad folder and download cloudbase-init
