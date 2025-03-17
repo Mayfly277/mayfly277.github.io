@@ -8,9 +8,9 @@ image:
   alt: Exchange - part 1
 ---
 
-- On Goadv3 an extension has appear : EXCHANGE
-- First thanks to [aleemladha](https://github.com/aleemladha) for his pull request and his help on the exchange integration in GOAD lab !
-- I wanted to write an exploitation guide for exchange for a long time ! Now, it will be finally started :)
+- On GOAD v3 Update: A New Addition appear : [EXCHANGE](https://orange-cyberdefense.github.io/GOAD/extensions/exchange/)!
+- Huge thanks to [aleemladha](https://github.com/aleemladha) for his pull request and invaluable help in integrating Exchange into the GOAD lab!
+- I've been wanting to write an Exchange exploitation guide for a long time—now, it's finally happening! Stay tuned.
 
 ## Exchange installation
 
