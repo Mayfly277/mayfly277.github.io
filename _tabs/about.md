@@ -15,4 +15,4 @@ Pentest and Red Teamer @orangecyberdefense
 - Linked-In : [Cyril Servieres](https://www.linkedin.com/in/cyril-servieres-7b345458/)
 - Discord   : m4yfly
 
-- Certifications : OSCP, OSWE, OSEP, OSED
+- Certifications : OSCP, OSWE, OSEP, OSED, OSCE3, CARTP
